@@ -24,7 +24,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install zip -y
-          zip /workspace/function-source.zip main.py requirements.txt
+          # Zip everything into function-source.zip right here in the code folder
+          zip function-source.zip main.py requirements.txt
         working-directory: code
 
       # 3. Set up Terraform (installs the CLI).
