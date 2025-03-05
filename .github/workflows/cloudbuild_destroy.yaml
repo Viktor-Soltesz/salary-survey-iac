@@ -30,7 +30,7 @@ jobs:
       # 4. Initialize Terraform (remote state)
       - name: Terraform Init
         run: |
-          terraform init \
+          terraform init -reconfigure \
             -backend-config="bucket=software-developer-salaries-tf-state" \
             -backend-config="prefix=data-analytics-platform-event-driven"
         working-directory: infra
