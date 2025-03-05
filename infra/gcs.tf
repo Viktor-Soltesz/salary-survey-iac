@@ -18,6 +18,11 @@ resource "google_storage_bucket" "upload_bucket" {
   uniform_bucket_level_access = true
   force_destroy               = true
   labels                      = local.resource_labels
+
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes  = all
+  }
 }
 
 resource "google_storage_bucket" "archive_bucket" {
@@ -26,4 +31,9 @@ resource "google_storage_bucket" "archive_bucket" {
   uniform_bucket_level_access = true
   force_destroy               = true
   labels                      = local.resource_labels
+
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes  = all
+  }
 }

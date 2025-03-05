@@ -17,6 +17,11 @@ resource "google_bigquery_dataset" "ecommerce" {
   description = "Store ecommerce data"
   location    = var.region
   labels      = local.resource_labels
+
+  lifecycle {
+    prevent_destroy = true
+    ignore_changes  = all
+  }
 }
 
 resource "google_bigquery_table" "order_events" {
@@ -56,5 +61,4 @@ resource "google_bigquery_table" "order_events" {
   }
 ]
 EOF
-
 }
