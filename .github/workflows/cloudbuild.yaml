@@ -38,6 +38,7 @@ jobs:
       - name: Terraform Init
         run: |
           terraform init \
+            -migrate-state \
             -backend-config="bucket=software-developer-salaries-tf-state" \
             -backend-config="prefix=data-analytics-platform-event-driven"
         working-directory: infra
