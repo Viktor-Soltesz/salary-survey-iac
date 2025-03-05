@@ -30,3 +30,10 @@ git add .
 git commit -m "Initial commit - Infrastructure as Code"
 git branch -M main
 git push -u origin main
+
+europe-west9
+
+
+git add .
+git commit -m "Corrected GH actions file"
+git push origin main
