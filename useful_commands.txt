@@ -1,0 +1,21 @@
+https://github.com/GoogleCloudPlatform/click-to-deploy-solutions/tree/main/data-analytics-platform-event-driven
+
+gcloud config set project software-developer-salaries
+
+gcloud services enable \
+    compute.googleapis.com \
+    storage.googleapis.com \
+    cloudresourcemanager.googleapis.com \
+    bigquery.googleapis.com \
+    workflows.googleapis.com \
+    pubsub.googleapis.com \
+    cloudfunctions.googleapis.com \
+    cloudbuild.googleapis.com \
+    servicemanagement.googleapis.com \
+    servicecontrol.googleapis.com \
+    logging.googleapis.com \
+    monitoring.googleapis.com
+	
+https://github.com/Viktor-Soltesz/salary-survey-iac.git
+
+https://github.com/dataslayermedia/Google-Cloud-Platform-Killswitch/tree/main
