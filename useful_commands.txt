@@ -16,6 +16,17 @@ gcloud services enable \
     logging.googleapis.com \
     monitoring.googleapis.com
 	
+gcloud services enable storage.googleapis.com
+	
 https://github.com/Viktor-Soltesz/salary-survey-iac.git
 
 https://github.com/dataslayermedia/Google-Cloud-Platform-Killswitch/tree/main
+
+terraform plan -var="project_id=software-developer-salaries"
+
+git init
+git remote add origin https://github.com/Viktor-Soltesz/salary-survey-iac.git
+git add .
+git commit -m "Initial commit - Infrastructure as Code"
+git branch -M main
+git push -u origin main
