@@ -48,8 +48,23 @@ jobs:
             -backend-config="bucket=software-developer-salaries-tf-state" \
             -backend-config="prefix=data-analytics-platform-event-driven"
         working-directory: infra
+        
+      # 6. Import existing resources
+      - name: Import Existing Resources
+        run: |
+          # Try to import resources, ignoring errors if they don't exist
+          terraform import google_bigquery_dataset.ecommerce software-developer-salaries:ecommerce || true
+          terraform import google_service_account.function_sa projects/software-developer-salaries/serviceAccounts/gcs-to-bq-trigger@software-developer-salaries.iam.gserviceaccount.com || true
+          
+          # You'll need to figure out the actual bucket names - these are likely in the form:
+          # project-id-gcf-source, project-id-upload, project-id-archive
+          # Check in GCP console or modify these based on your error messages
+          terraform import google_storage_bucket.gcf_source_bucket software-developer-salaries-gcf-source || true
+          terraform import google_storage_bucket.upload_bucket software-developer-salaries-upload-bucket || true
+          terraform import google_storage_bucket.archive_bucket software-developer-salaries-archive-bucket || true
+        working-directory: infra
 
-      # 6. Apply Terraform changes.
+      # 7. Apply Terraform changes.
       - name: Terraform Apply
         run: terraform apply -auto-approve
         working-directory: infra

@@ -16,6 +16,8 @@ gcloud services enable \
     logging.googleapis.com \
     monitoring.googleapis.com
 	
+https://github.com/GoogleCloudPlatform/click-to-deploy-solutions/tree/main/data-analytics-platform-event-driven
+
 gcloud services enable storage.googleapis.com
 	
 https://github.com/Viktor-Soltesz/salary-survey-iac.git
@@ -37,3 +39,5 @@ europe-west9
 git add .
 git commit -m "Corrected GH actions file"
 git push origin main
+
+terraform init -reconfigure -backend-config="bucket=software-developer-salaries-tf-state" -backend-config="prefix=data-analytics-platform-event-driven"
