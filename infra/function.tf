@@ -22,7 +22,7 @@ resource "google_storage_bucket" "gcf_source_bucket" {
 resource "google_storage_bucket_object" "gcf_source_code" {
   name   = "function-source.zip"
   bucket = google_storage_bucket.gcf_source_bucket.name
-  source = "/workspace/function-source.zip"
+  source = "function-source.zip"
 }
 
 resource "google_cloudfunctions2_function" "function" {

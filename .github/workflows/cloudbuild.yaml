@@ -23,8 +23,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install zip -y
-          # Zip everything into function-source.zip and place it in infra/
+          # Zip into infra/ directory
           zip ../infra/function-source.zip main.py requirements.txt
+          # Debug: Verify file location
+          ls -la ../infra/
         working-directory: code
 
       # 3. Set up Terraform.
@@ -48,27 +50,35 @@ jobs:
             -backend-config="prefix=data-analytics-platform-event-driven"
         working-directory: infra
         
-      # 6. Import existing resources.
+      # 6. Import existing resources with conditional BigQuery check.
       - name: Import Existing Resources
         run: |
-          # Import BigQuery dataset if it exists (|| true to avoid failing if already in state or doesn’t exist)
-          terraform import google_bigquery_dataset.ecommerce software-developer-salaries.ecommerce || true
-    
+          # Check if BigQuery dataset exists before importing
+          if gcloud bigquery datasets list --project=software-developer-salaries --format="value(datasetReference.datasetId)" | grep -q "^ecommerce$"; then
+            echo "Dataset ecommerce exists, importing..."
+            terraform import google_bigquery_dataset.ecommerce software-developer-salaries.ecommerce
+          else
+            echo "Dataset ecommerce does not exist, will be created by Terraform."
+          fi
           # Import service account
           terraform import google_service_account.function_sa projects/software-developer-salaries/serviceAccounts/gcs-to-bq-trigger@software-developer-salaries.iam.gserviceaccount.com || true
-    
           # Import storage buckets
           terraform import google_storage_bucket.gcf_source_bucket software-developer-salaries-gcf-source-bucket || true
           terraform import google_storage_bucket.upload_bucket software-developer-salaries-upload || true
           terraform import google_storage_bucket.archive_bucket software-developer-salaries-archive || true
         working-directory: infra
 
-      # 7. Generate and inspect Terraform plan.
+      # 7. Verify Terraform state after imports.
+      - name: Verify Terraform State
+        run: terraform state list
+        working-directory: infra
+
+      # 8. Generate and inspect Terraform plan.
       - name: Terraform Plan
         run: terraform plan -out=tfplan
         working-directory: infra
 
-      # 8. Apply Terraform changes.
+      # 9. Apply Terraform changes.
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
         working-directory: infra
