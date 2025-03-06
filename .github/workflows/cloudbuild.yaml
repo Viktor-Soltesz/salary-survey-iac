@@ -9,7 +9,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     
-    # Set your environment variables here.  
     env:
       TF_VAR_project_id: "software-developer-salaries"
       REGION: "europe-west9"
@@ -19,28 +18,28 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
 
-      # 2. Install zip & zip your Cloud Function code.
+      # 2. Install zip & Zip code.
       - name: Install zip & Zip code
         run: |
           sudo apt-get update
           sudo apt-get install zip -y
-          # Zip everything into function-source.zip right here in the code folder
-          zip function-source.zip main.py requirements.txt
+          # Zip everything into function-source.zip and place it in infra/
+          zip ../infra/function-source.zip main.py requirements.txt
         working-directory: code
 
-      # 3. Set up Terraform (installs the CLI).
+      # 3. Set up Terraform.
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.3.9
       
-      # 4. Authenticate with Google Cloud before using Terraform
+      # 4. Authenticate with Google Cloud.
       - name: Authenticate with Google Cloud
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
 
-      # 5. Initialize Terraform (backend config for remote state).
+      # 5. Initialize Terraform.
       - name: Terraform Init
         run: |
           terraform init \
@@ -49,22 +48,27 @@ jobs:
             -backend-config="prefix=data-analytics-platform-event-driven"
         working-directory: infra
         
-      # 6. Import existing resources
+      # 6. Import existing resources.
       - name: Import Existing Resources
         run: |
-          # Import BigQuery dataset
+          # Import BigQuery dataset if it exists (|| true to avoid failing if already in state or doesn’t exist)
           terraform import google_bigquery_dataset.ecommerce software-developer-salaries.ecommerce || true
     
           # Import service account
           terraform import google_service_account.function_sa projects/software-developer-salaries/serviceAccounts/gcs-to-bq-trigger@software-developer-salaries.iam.gserviceaccount.com || true
     
-          # Import storage buckets with their actual names
+          # Import storage buckets
           terraform import google_storage_bucket.gcf_source_bucket software-developer-salaries-gcf-source-bucket || true
           terraform import google_storage_bucket.upload_bucket software-developer-salaries-upload || true
           terraform import google_storage_bucket.archive_bucket software-developer-salaries-archive || true
         working-directory: infra
 
-      # 7. Apply Terraform changes.
+      # 7. Generate and inspect Terraform plan.
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+        working-directory: infra
+
+      # 8. Apply Terraform changes.
       - name: Terraform Apply
-        run: terraform apply -auto-approve
+        run: terraform apply -auto-approve tfplan
         working-directory: infra
