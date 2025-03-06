@@ -54,7 +54,7 @@ jobs:
       - name: Import Existing Resources
         run: |
           # Check if BigQuery dataset exists before importing
-          if gcloud bigquery datasets list --project=software-developer-salaries --format="value(datasetReference.datasetId)" | grep -q "^ecommerce$"; then
+          if bq ls --project_id=software-developer-salaries | grep -q "ecommerce"; then
             echo "Dataset ecommerce exists, importing..."
             terraform import google_bigquery_dataset.ecommerce software-developer-salaries.ecommerce
           else
