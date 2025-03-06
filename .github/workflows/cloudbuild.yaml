@@ -56,11 +56,16 @@ jobs:
 
       - name: Import Existing Resources
         run: |
-          if bq ls --project_id=$TF_VAR_project_id | grep -q "ecommerce"; then
-            echo "Dataset ecommerce exists, importing..."
-            terraform import google_bigquery_dataset.ecommerce projects/$TF_VAR_project_id/datasets/ecommerce
+          # Check if BigQuery dataset is already in state
+          if ! terraform state list | grep -q "google_bigquery_dataset.ecommerce"; then
+            if bq ls --project_id=$TF_VAR_project_id | grep -q "ecommerce"; then
+              echo "Dataset ecommerce exists but not in state, importing..."
+              terraform import google_bigquery_dataset.ecommerce projects/$TF_VAR_project_id/datasets/ecommerce
+            else
+              echo "Dataset ecommerce does not exist, will be created by Terraform."
+            fi
           else
-            echo "Dataset ecommerce does not exist, will be created by Terraform."
+            echo "Dataset ecommerce is already managed by Terraform, skipping import."
           fi
           terraform import google_service_account.function_sa projects/$TF_VAR_project_id/serviceAccounts/gcs-to-bq-trigger@$TF_VAR_project_id.iam.gserviceaccount.com || true
           terraform import google_storage_bucket.gcf_source_bucket $TF_VAR_project_id-gcf-source-bucket || true
