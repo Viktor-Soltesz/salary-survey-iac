@@ -41,3 +41,6 @@ git commit -m "Corrected GH actions file"
 git push origin main
 
 terraform init -reconfigure -backend-config="bucket=software-developer-salaries-tf-state" -backend-config="prefix=data-analytics-platform-event-driven"
+
+E:\_Programming\_DataAnalysis\salary_survey_iac
+E:\_Programming\_DataAnalysis\salary_survey_iac\infra

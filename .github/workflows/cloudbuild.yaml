@@ -52,7 +52,7 @@ jobs:
           terraform providers
           terraform import google_bigquery_dataset.ecommerce projects/$TF_VAR_project_id/datasets/ecommerce
         working-directory: infra
-        continue-on-error: true  # Allow workflow to proceed for debugging
+        continue-on-error: true  # Allow workflow to proceed for debugging...
 
       - name: Import Existing Resources
         run: |
