@@ -31,14 +31,3 @@ provider "google" {
   project = var.project_id
   region  = var.region
 }
-
-# added for debugging purposes
-variable "project_id" {
-  type    = string
-  default = "software-developer-salaries"
-}
-# added for debugging purposes
-variable "region" {
-  type    = string
-  default = "europe-west9"
-}

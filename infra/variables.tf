@@ -24,13 +24,16 @@ locals {
 
 # ID of the project in which you want to deploy the solution
 variable "project_id" {
+  type    = string
   description = "GCP Project ID"
+  default = "software-developer-salaries"
 }
 
 #Defines the deployment region for cloud resources.
 variable "region" {
   type        = string
   description = "GCP region"
+  default = "europe-west9"
 }
 
 #Assigns a label to provisioned cloud resources
