@@ -46,16 +46,17 @@ jobs:
       - name: Debug Terraform Access
         run: |
           echo "Project ID: $TF_VAR_project_id"
-          echo "Region: $REGION"
+          echo "Region: $REGION"  # Fixed typo from TF_VAR_region
           bq ls --project_id=$TF_VAR_project_id
-          bq show --format=prettyjson $TF_VAR_project_id:ecommerce || echo "Dataset ecommerce not found"
+          bq show --format=prettyjson $TF_VAR_project_id:ecommerce
           terraform providers
+          terraform import google_bigquery_dataset.ecommerce projects/$TF_VAR_project_id/datasets/ecommerce
         working-directory: infra
         continue-on-error: true  # Allow workflow to proceed for debugging...
 
       - name: Import Existing Resources
         run: |
-          # Import BigQuery dataset ecommerce if not already in state
+          # Check if BigQuery dataset is already in state
           if ! terraform state list | grep -q "google_bigquery_dataset.ecommerce"; then
             if bq ls --project_id=$TF_VAR_project_id | grep -q "ecommerce"; then
               echo "Dataset ecommerce exists but not in state, importing..."
@@ -66,44 +67,10 @@ jobs:
           else
             echo "Dataset ecommerce is already managed by Terraform, skipping import."
           fi
-
-          # Import BigQuery table order_events if not already in state
-          if ! terraform state list | grep -q "google_bigquery_table.order_events"; then
-            if bq show --format=prettyjson $TF_VAR_project_id:ecommerce.order_events > /dev/null 2>&1; then
-              echo "BigQuery table order_events exists but not in state, importing..."
-              terraform import google_bigquery_table.order_events projects/$TF_VAR_project_id/datasets/ecommerce/tables/order_events
-            else
-              echo "BigQuery table order_events does not exist, will be created by Terraform."
-            fi
-          else
-            echo "BigQuery table order_events is already managed by Terraform, skipping import."
-          fi
-
-          # Import Service Account if not already in state
-          if ! terraform state list | grep -q "google_service_account.function_sa"; then
-            terraform import google_service_account.function_sa projects/$TF_VAR_project_id/serviceAccounts/gcs-to-bq-trigger@$TF_VAR_project_id.iam.gserviceaccount.com || true
-          else
-            echo "Service account function_sa is already managed by Terraform, skipping import."
-          fi
-
-          # Import Storage Buckets if not already in state
-          if ! terraform state list | grep -q "google_storage_bucket.gcf_source_bucket"; then
-            terraform import google_storage_bucket.gcf_source_bucket ${TF_VAR_project_id}-gcf-source-bucket || true
-          else
-            echo "Bucket gcf_source_bucket is already managed by Terraform, skipping import."
-          fi
-
-          if ! terraform state list | grep -q "google_storage_bucket.upload_bucket"; then
-            terraform import google_storage_bucket.upload_bucket ${TF_VAR_project_id}-upload || true
-          else
-            echo "Bucket upload_bucket is already managed by Terraform, skipping import."
-          fi
-
-          if ! terraform state list | grep -q "google_storage_bucket.archive_bucket"; then
-            terraform import google_storage_bucket.archive_bucket ${TF_VAR_project_id}-archive || true
-          else
-            echo "Bucket archive_bucket is already managed by Terraform, skipping import."
-          fi
+          terraform import google_service_account.function_sa projects/$TF_VAR_project_id/serviceAccounts/gcs-to-bq-trigger@$TF_VAR_project_id.iam.gserviceaccount.com || true
+          terraform import google_storage_bucket.gcf_source_bucket $TF_VAR_project_id-gcf-source-bucket || true
+          terraform import google_storage_bucket.upload_bucket $TF_VAR_project_id-upload || true
+          terraform import google_storage_bucket.archive_bucket $TF_VAR_project_id-archive || true
         working-directory: infra
 
       - name: Verify Terraform State
