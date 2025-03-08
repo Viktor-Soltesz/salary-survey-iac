@@ -38,6 +38,7 @@ gcloud services enable \
   eventarc.googleapis.com \
   pubsub.googleapis.com \
   run.googleapis.com \
+  cloudresourcemanager.googleapis.com \
   --project "$PROJECT_ID"
 
 # Create Terraform service account (if not exists)

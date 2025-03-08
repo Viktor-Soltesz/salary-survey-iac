@@ -49,7 +49,7 @@ jobs:
 
       - name: Import Existing Resources
         run: |
-          # Import BigQuery dataset ecommerce if not already in state
+          # 1. Import BigQuery dataset ecommerce if not already in state
           if ! terraform state list | grep -q "google_bigquery_dataset.ecommerce"; then
             if bq ls --project_id=$TF_VAR_project_id | grep -q "ecommerce"; then
               echo "Dataset ecommerce exists but not in state, importing..."
@@ -61,7 +61,7 @@ jobs:
             echo "Dataset ecommerce is already managed by Terraform, skipping import."
           fi
 
-          # Import BigQuery table order_events if not already in state
+          # 2. Import BigQuery table order_events if not already in state
           if ! terraform state list | grep -q "google_bigquery_table.order_events"; then
             if bq show --format=prettyjson $TF_VAR_project_id:ecommerce.order_events > /dev/null 2>&1; then
               echo "BigQuery table order_events exists but not in state, importing..."
@@ -73,28 +73,48 @@ jobs:
             echo "BigQuery table order_events is already managed by Terraform, skipping import."
           fi
 
-          # Import Service Account if not already in state
+          # 3. Import Service Account if not already in state
           if ! terraform state list | grep -q "google_service_account.function_sa"; then
-            terraform import google_service_account.function_sa projects/$TF_VAR_project_id/serviceAccounts/gcs-to-bq-trigger@$TF_VAR_project_id.iam.gserviceaccount.com || true
+            if gcloud iam service-accounts describe gcs-to-bq-trigger@$TF_VAR_project_id.iam.gserviceaccount.com --project=$TF_VAR_project_id > /dev/null 2>&1; then
+              echo "Service account gcs-to-bq-trigger exists but not in state, importing..."
+              terraform import google_service_account.function_sa projects/$TF_VAR_project_id/serviceAccounts/gcs-to-bq-trigger@$TF_VAR_project_id.iam.gserviceaccount.com
+            else
+              echo "Service account gcs-to-bq-trigger does not exist, will be created by Terraform."
+            fi
           else
             echo "Service account function_sa is already managed by Terraform, skipping import."
           fi
 
-          # Import Storage Buckets if not already in state
+          # 4. Import Storage Buckets if not already in state
           if ! terraform state list | grep -q "google_storage_bucket.gcf_source_bucket"; then
-            terraform import google_storage_bucket.gcf_source_bucket ${TF_VAR_project_id}-gcf-source-bucket || true
+            if gsutil ls gs://${TF_VAR_project_id}-gcf-source-bucket > /dev/null 2>&1; then
+              echo "Bucket ${TF_VAR_project_id}-gcf-source-bucket exists but not in state, importing..."
+              terraform import google_storage_bucket.gcf_source_bucket ${TF_VAR_project_id}-gcf-source-bucket
+            else
+              echo "Bucket ${TF_VAR_project_id}-gcf-source-bucket does not exist, will be created by Terraform."
+            fi
           else
             echo "Bucket gcf_source_bucket is already managed by Terraform, skipping import."
           fi
 
           if ! terraform state list | grep -q "google_storage_bucket.upload_bucket"; then
-            terraform import google_storage_bucket.upload_bucket ${TF_VAR_project_id}-upload || true
+            if gsutil ls gs://${TF_VAR_project_id}-upload > /dev/null 2>&1; then
+              echo "Bucket ${TF_VAR_project_id}-upload exists but not in state, importing..."
+              terraform import google_storage_bucket.upload_bucket ${TF_VAR_project_id}-upload
+            else
+              echo "Bucket ${TF_VAR_project_id}-upload does not exist, will be created by Terraform."
+            fi
           else
             echo "Bucket upload_bucket is already managed by Terraform, skipping import."
           fi
 
           if ! terraform state list | grep -q "google_storage_bucket.archive_bucket"; then
-            terraform import google_storage_bucket.archive_bucket ${TF_VAR_project_id}-archive || true
+            if gsutil ls gs://${TF_VAR_project_id}-archive > /dev/null 2>&1; then
+              echo "Bucket ${TF_VAR_project_id}-archive exists but not in state, importing..."
+              terraform import google_storage_bucket.archive_bucket ${TF_VAR_project_id}-archive
+            else
+              echo "Bucket ${TF_VAR_project_id}-archive does not exist, will be created by Terraform."
+            fi
           else
             echo "Bucket archive_bucket is already managed by Terraform, skipping import."
           fi
