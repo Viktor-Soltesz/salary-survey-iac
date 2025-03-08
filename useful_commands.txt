@@ -25,7 +25,9 @@ git push -u origin dev
 
 
 git add .
-git commit -m "Initial commit with the updated structure"
+git commit -m "corrected env. GH actions variables as var."
+git push -u origin dev
+
 git push origin main
 
 europe-west9

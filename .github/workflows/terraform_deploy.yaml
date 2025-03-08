@@ -11,10 +11,10 @@ jobs:
     environment: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
 
     env:
-      TF_VAR_project_id: ${{ env.PROJECT_ID }}
-      TF_VAR_sa_email: ${{ secrets.TERRAFORM_SERVICE_ACCOUNT_EMAIL }}
+      TF_VAR_project_id: ${{ vars.PROJECT_ID }}
+      TF_VAR_sa_email: ${{ vars.TERRAFORM_SERVICE_ACCOUNT_EMAIL }}
       TF_VAR_region: "europe-west9"
-      TF_STATE_BUCKET: "${{ env.PROJECT_ID }}-tf-state"
+      TF_STATE_BUCKET: "${{ vars.PROJECT_ID }}-tf-state"
       TF_STATE_PREFIX: "data-analytics-platform-event-driven"
 
     steps:
