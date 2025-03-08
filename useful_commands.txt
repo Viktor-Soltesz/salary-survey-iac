@@ -21,9 +21,11 @@ git branch -M main
 git push -u origin main
 
 git checkout -b dev
+git push -u origin dev
+
 
 git add .
-git commit -m "Corrected GH actions file"
+git commit -m "Initial commit with the updated structure"
 git push origin main
 
 europe-west9
