@@ -46,5 +46,5 @@ resource "google_project_iam_member" "gcs_to_pubsub" {
 resource "google_service_account_iam_member" "terraform_act_as_function_sa" {
   service_account_id = google_service_account.function_sa.id
   role               = "roles/iam.serviceAccountUser"
-  member             = "serviceAccount:${var.terraform_sa_email}"  # Assuming this variable holds your Terraform SA email
+  member             = "serviceAccount:${var.sa_email}"
 }
