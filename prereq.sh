@@ -59,6 +59,7 @@ add_iam_member "serviceAccount:$TF_SA" "roles/cloudfunctions.admin"
 add_iam_member "serviceAccount:$TF_SA" "roles/bigquery.admin"
 add_iam_member "serviceAccount:$TF_SA" "roles/iam.serviceAccountAdmin"
 add_iam_member "serviceAccount:$TF_SA" "roles/pubsub.admin"
+add_iam_member "serviceAccount:221846650138-compute@developer.gserviceaccount.com" "roles/iam.serviceAccountUser"
 
 # Grant GCS SA permissions for Eventarc
 GCS_SA="$(gsutil kms serviceaccount -p "$PROJECT_ID")"
