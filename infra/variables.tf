@@ -15,6 +15,11 @@ variable "project_id" {
   # default = "software-developer-salaries"
 }
 
+variable "sa_email" {
+  description = "Email of the Terraform service account"
+  type        = string
+}
+
 #Defines the deployment region for cloud resources.
 variable "region" {
   type        = string

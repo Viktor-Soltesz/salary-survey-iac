@@ -25,10 +25,15 @@ git push -u origin dev
 
 
 git add .
-git commit -m "corrected env. GH actions variables as var."
+git commit -m "corrected iam role definitions"
 git push -u origin dev
 
-git push origin main
+ON INTERRUPTION:
+- state file can be left behind, check this by:
+	gsutil ls gs://developer-salaries-dev-tf-state/data-analytics-platform-event-driven/default.tflock
+- And remove lock if no processes are running:
+	gsutil rm gs://developer-salaries-dev-tf-state/data-analytics-platform-event-driven/default.tflock
+
 
 europe-west9
 E:\_Programming\_DataAnalysis\salary_survey_iac
