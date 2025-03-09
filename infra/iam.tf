@@ -59,9 +59,8 @@ data "google_compute_default_service_account" "default" {
   project = var.project_id
 }
 
-# Grant Terraform SA the ability to act as Compute Engine default SA
 resource "google_service_account_iam_member" "terraform_act_as_compute_sa" {
-  service_account_id = data.google_compute_default_service_account.default.email
+  service_account_id = data.google_compute_default_service_account.default.id
   role               = "roles/iam.serviceAccountUser"
   member             = "serviceAccount:${var.sa_email}"
 }
