@@ -25,7 +25,7 @@ git push -u origin dev
 
 
 git add .
-git commit -m "corrected iam role definitions"
+git commit -m "updated iam.tf for compute engine"
 git push -u origin dev
 
 ON INTERRUPTION:

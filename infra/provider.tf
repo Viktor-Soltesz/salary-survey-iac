@@ -9,7 +9,7 @@ terraform { # This block specifies that backend should be remote. Further detail
   }
 
   provider_meta "google" {
-    module_name = "cloud-solutions/data-analytics-platform-event-driven-v0.1"
+    module_name = "salary-survey-iac/terraform-deployment-v1"
   }
 }
 
