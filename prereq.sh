@@ -39,6 +39,7 @@ gcloud services enable \
   pubsub.googleapis.com \
   run.googleapis.com \
   cloudresourcemanager.googleapis.com \
+  compute.googleapis.com \
   --project "$PROJECT_ID"
 
 # Create Terraform service account (if not exists)
