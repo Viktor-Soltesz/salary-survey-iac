@@ -19,7 +19,7 @@ resource "google_cloudfunctions2_function" "function" {
   
   build_config {
     runtime     = "python310"
-    entry_point = "trigger_gcs" # Set the entry point in the code
+    entry_point = "gcs_to_bq" # Set the entry point in the code
 
     source {
       storage_source {

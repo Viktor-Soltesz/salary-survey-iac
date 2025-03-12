@@ -24,7 +24,7 @@ git push -u origin dev
 
 
 git add .
-git commit -m "updated prereq.sh"
+git commit -m "modularized python part within cloud function"
 git push -u origin dev
 
 ON INTERRUPTION:
