@@ -1,3 +1,5 @@
+# the ETL as currently implemented will only work properly if the file’s path is structured so that the first two segments match the BigQuery target
+# Bucket/ecommerce/order_events/file.csv
 resource "google_bigquery_dataset" "ecommerce" {
   dataset_id  = "ecommerce"
   description = "Store ecommerce data"

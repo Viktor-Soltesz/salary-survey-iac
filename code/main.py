@@ -1,95 +1,73 @@
-# Copyright 2023 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     https://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-
-from google.cloud import storage
 import functions_framework
+import pandas as pd
 from google.cloud import bigquery, storage
 import os
+from transformations import cleaning, uniformizing, null_handling, outlier
 
-
-def load_csv_to_bq(bucket, object):
-    # Construct a BigQuery client object.
-    client = bigquery.Client()
-
-    project_id = os.environ['DW_PROJECT_ID']
-    params = object.split("/")
-    table_id = "{}.{}.{}".format(project_id, params[0], params[1])
-    print(f"Table ID: {table_id}")
-
-    job_config = bigquery.LoadJobConfig(
-        autodetect=True,
-        skip_leading_rows=1,
-        # The source format defaults to CSV, so the line below is optional.
-        source_format=bigquery.SourceFormat.CSV,
-    )
-    uri = "gs://{}/{}".format(bucket, object)
-
-    load_job = client.load_table_from_uri(
-        uri, table_id, job_config=job_config
-    )  # Make an API request.
-
-    load_job.result()  # Waits for the job to complete.
-
-    destination_table = client.get_table(table_id)  # Make an API request.
-    print("Table has now {} rows.".format(destination_table.num_rows))
-
-
-def move_blob(bucket_name, blob_name):
-    """Moves a blob from one bucket to another with a new name."""
-    destination_bucket_name = os.environ['GCS_ARCHIVE_BUCKET']
-
-    storage_client = storage.Client()
-    source_bucket = storage_client.bucket(bucket_name)
-    source_blob = source_bucket.blob(blob_name)
-    destination_bucket = storage_client.bucket(destination_bucket_name)
-
-    blob_copy = source_bucket.copy_blob(source_blob, destination_bucket, blob_name)
-    source_bucket.delete_blob(blob_name)
-
-    print(
-        "Blob {} in bucket {} moved to blob {} in bucket {}.".format(
-            source_blob.name,
-            source_bucket.name,
-            blob_copy.name,
-            destination_bucket.name,
-        )
-    )
-
-
-# Triggered by a change in a storage bucket
 @functions_framework.cloud_event
-def trigger_gcs(cloud_event):
-    data = cloud_event.data
+def gcs_to_bq(cloud_event):
+    """
+    Triggered by a change to a Cloud Storage bucket.
+    This function loads CSV data from GCS, performs data transformations,
+    and loads the transformed data into BigQuery.
+    """
 
-    event_id = cloud_event["id"]
-    event_type = cloud_event["type"]
+    # Extract file information from the cloud event
+    bucket_name = cloud_event.data["bucket"]
+    file_name = cloud_event.data["name"]
+    print(f"Detected file: {file_name} in bucket: {bucket_name}.")
 
-    bucket = data["bucket"]
-    name = data["name"]
-    metageneration = data["metageneration"]
-    timeCreated = data["timeCreated"]
-    updated = data["updated"]
+    #check if the file is a csv
+    if not file_name.endswith('.csv'):
+        print("file not a csv, skipping.")
+        return
 
-    print(f"Event ID: {event_id}")
-    print(f"Event type: {event_type}")
-    print(f"Bucket: {bucket}")
-    print(f"File: {name}")
-    print(f"Metageneration: {metageneration}")
-    print(f"Created: {timeCreated}")
-    print(f"Updated: {updated}")
+    # Initialize GCS client
+    storage_client = storage.Client()
+    bucket = storage_client.bucket(bucket_name)
+    blob = bucket.blob(file_name)
 
-    if 'csv' in name:
-        load_csv_to_bq(bucket, name)
-        move_blob(bucket, name)
+    # Download the CSV file to memory
+    csv_data = blob.download_as_text()
+    
+    # Create a pandas DataFrame from the CSV data
+    df = pd.read_csv(pd.compat.StringIO(csv_data))
+    print(f"File loaded to dataframe. shape {df.shape}")
+
+    # Data Transformation Pipeline
+    df = cleaning.clean_customer_email(df)
+    df = cleaning.clean_order_id(df)
+    df = uniformizing.uniformize_action_types(df)
+    df = null_handling.drop_null_rows(df, ["action", "order_id", "customer_email", "action_time"])
+    df = outlier.remove_outliers_zscore(df,"order_id", 3)
+    df = null_handling.fill_null_values_with_constant(df,"order_id","unknown")
+
+    print(f"Data Transformation finished. shape {df.shape}")
+    
+    # Initialize BigQuery client
+    bq_client = bigquery.Client()
+
+    # Define the BigQuery table reference
+    dataset_id = "ecommerce"
+    table_id = "order_events"
+    table_ref = bq_client.dataset(dataset_id).table(table_id)
+
+    # Load the DataFrame into BigQuery
+    job_config = bigquery.LoadJobConfig(
+        write_disposition=bigquery.WriteDisposition.WRITE_APPEND,
+        # Define the schema for the table. If the table was empty, the schema is autodetected.
+        schema=[
+        bigquery.SchemaField("order_id", bigquery.enums.SqlTypeNames.STRING),
+        bigquery.SchemaField("customer_email", bigquery.enums.SqlTypeNames.STRING),
+        bigquery.SchemaField("action", bigquery.enums.SqlTypeNames.STRING),
+        bigquery.SchemaField("action_time", bigquery.enums.SqlTypeNames.TIMESTAMP),
+        ],
+    )
+    # Convert DataFrame to list of dictionaries for BigQuery
+    records = df.to_dict('records')
+    job = bq_client.load_table_from_json(records, table_ref, job_config=job_config)
+    
+    # Wait for the load job to complete
+    job.result()
+
+    print(f"Successfully loaded {len(records)} rows to BigQuery table: {table_ref.path}")

@@ -25,7 +25,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install zip -y
-          zip ../infra/function-source.zip main.py requirements.txt
+          zip -r ../infra/function-source.zip . -x "*.git*"
           ls -la ../infra/
         working-directory: code
 
