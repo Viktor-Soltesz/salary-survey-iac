@@ -1,11 +1,10 @@
 https://github.com/GoogleCloudPlatform/click-to-deploy-solutions/tree/main/data-analytics-platform-event-driven
-https://github.com/GoogleCloudPlatform/click-to-deploy-solutions/tree/main/data-analytics-platform-event-driven
 https://github.com/Viktor-Soltesz/salary-survey-iac.git
 https://github.com/dataslayermedia/Google-Cloud-Platform-Killswitch/tree/main
 
 gcloud projects list
 gcloud auth login
-gcloud config set project software-developer-salaries
+gcloud config set project developer-salaries-dev
 gcloud projects get-iam-policy software-developer-salaries > iam-backup.yaml
 gcloud services enable compute.googleapis.com
 
@@ -25,8 +24,8 @@ git push -u origin dev
 
 
 git add .
-git commit -m "updated prereq.sh"
-git push -u origin dev
+git commit -m "adjusted bq.tf and main.py, loosening and synching schema requirements"
+git push -u origin dev3
 
 ON INTERRUPTION:
 - state file can be left behind, check this by:

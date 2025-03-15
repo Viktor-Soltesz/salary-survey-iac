@@ -16,10 +16,10 @@ resource "google_bigquery_table" "order_events" {
   description         = "Store order events"
   deletion_protection = false
 
-  time_partitioning {
-    type  = "DAY"
-    field = "action_time"
-  }
+  # time_partitioning { # No partitioning for now, as dataset is small
+  #   type  = "DAY"
+  #   field = "action_time"
+  # }
 
   labels = local.resource_labels
 
@@ -42,7 +42,7 @@ resource "google_bigquery_table" "order_events" {
   },
   {
     "name": "action_time",
-    "type": "TIMESTAMP",
+    "type": "STRING",
     "mode": "NULLABLE"
   }
 ]

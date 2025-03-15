@@ -17,7 +17,6 @@ def transform_df(df):
     """Transforms the DataFrame by:
        - Stripping whitespace from column names.
        - Removing leading/trailing whitespace from string values.
-       - Converting the 'action_time' column to datetime.
     """
     # Strip whitespace from column names (ensuring they match the BigQuery schema)
     df.columns = df.columns.str.strip()
@@ -25,11 +24,7 @@ def transform_df(df):
     # Remove whitespace from string columns
     for col in df.select_dtypes(include=['object']).columns:
         df[col] = df[col].str.strip()
-        
-    # Convert the partitioning column to datetime (if present)
-    if 'action_time' in df.columns:
-        df['action_time'] = pd.to_datetime(df['action_time'], errors='coerce')
-    
+
     return df
 
 def archive_csv_df(df, blob_name):
@@ -52,9 +47,9 @@ def load_df_to_bq(df, blob_name):
     print(f"Table ID: {table_id}")
 
     job_config = bigquery.LoadJobConfig(
-        autodetect=True,
+        # autodetect=True,  # Detect schema not needed, as we're providing it
         write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE,
-        source_format=bigquery.SourceFormat.CSV,
+        #source_format=bigquery.SourceFormat.CSV, # not needed for DataFrames
     )
     
     load_job = client.load_table_from_dataframe(df, table_id, job_config=job_config)
