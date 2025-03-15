@@ -26,12 +26,11 @@ def load_data_to_bq(df: pd.DataFrame, dataset_id: str, table_id: str, schema: li
         write_disposition=bigquery.WriteDisposition.WRITE_APPEND,
         schema=schema
     )
-    records = df.to_dict('records')
-    job = bq_client.load_table_from_json(records, table_ref, job_config=job_config)
+    job = bq_client.load_table_from_dataframe(df, table_ref, job_config=job_config) # this line changed
 
     try:
         job.result()  # Wait for the job to complete.
-        print(f"Successfully loaded {len(records)} rows to BigQuery table: {table_ref.path}")
+        print(f"Successfully loaded data to BigQuery table: {table_ref.path}") # this line changed
     except Exception as e:
         print(f"Error loading data to BigQuery: {e}")
         raise
