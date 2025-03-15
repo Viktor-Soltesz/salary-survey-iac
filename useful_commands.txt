@@ -24,7 +24,7 @@ git push -u origin dev
 
 
 git add .
-git commit -m "adjusted bq.tf and main.py, loosening and synching schema requirements"
+git commit -m "updated requirements.txt"
 git push -u origin dev3
 
 ON INTERRUPTION:
