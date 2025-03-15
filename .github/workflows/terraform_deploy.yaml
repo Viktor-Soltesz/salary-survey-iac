@@ -49,28 +49,28 @@ jobs:
 
       - name: Import Existing Resources
         run: |
-          # 1. Import BigQuery dataset ecommerce if not already in state
-          if ! terraform state list | grep -q "google_bigquery_dataset.ecommerce"; then
-            if bq ls --project_id=$TF_VAR_project_id | grep -q "ecommerce"; then
-              echo "Dataset ecommerce exists but not in state, importing..."
-              terraform import google_bigquery_dataset.ecommerce projects/$TF_VAR_project_id/datasets/ecommerce
+          # 1. Import BigQuery dataset surveys if not already in state
+          if ! terraform state list | grep -q "google_bigquery_dataset.surveys"; then
+            if bq ls --project_id=$TF_VAR_project_id | grep -q "surveys"; then
+              echo "Dataset surveys exists but not in state, importing..."
+              terraform import google_bigquery_dataset.surveys projects/$TF_VAR_project_id/datasets/surveys
             else
-              echo "Dataset ecommerce does not exist, will be created by Terraform."
+              echo "Dataset surveys does not exist, will be created by Terraform."
             fi
           else
-            echo "Dataset ecommerce is already managed by Terraform, skipping import."
+            echo "Dataset surveys is already managed by Terraform, skipping import."
           fi
 
-          # 2. Import BigQuery table order_events if not already in state
-          if ! terraform state list | grep -q "google_bigquery_table.order_events"; then
-            if bq show --format=prettyjson $TF_VAR_project_id:ecommerce.order_events > /dev/null 2>&1; then
-              echo "BigQuery table order_events exists but not in state, importing..."
-              terraform import google_bigquery_table.order_events projects/$TF_VAR_project_id/datasets/ecommerce/tables/order_events
+          # 2. Import BigQuery table developer_salaries if not already in state
+          if ! terraform state list | grep -q "google_bigquery_table.developer_salaries"; then
+            if bq show --format=prettyjson $TF_VAR_project_id:surveys.developer_salaries > /dev/null 2>&1; then
+              echo "BigQuery table developer_salaries exists but not in state, importing..."
+              terraform import google_bigquery_table.developer_salaries projects/$TF_VAR_project_id/datasets/surveys/tables/developer_salaries
             else
-              echo "BigQuery table order_events does not exist, will be created by Terraform."
+              echo "BigQuery table developer_salaries does not exist, will be created by Terraform."
             fi
           else
-            echo "BigQuery table order_events is already managed by Terraform, skipping import."
+            echo "BigQuery table developer_salaries is already managed by Terraform, skipping import."
           fi
 
           # 3. Import Service Account if not already in state
