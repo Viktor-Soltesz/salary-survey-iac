@@ -3,6 +3,7 @@ Main module for the Cloud Function. Orchestrates data extraction, transformation
 """
 import functions_framework
 import pandas as pd
+import json
 from transform import cleaning, uniformizing, null_handling, outlier
 from extract import gcs_extractor
 from load import bq_loader
@@ -22,12 +23,12 @@ def gcs_to_bq(cloud_event):
 
         # 2. Transform Data
         print("Starting Data Transformation...")
-        # df = cleaning.clean_customer_email(df)
-        # df = cleaning.clean_order_id(df)
-        # df = uniformizing.uniformize_action_types(df)
-        # df = null_handling.drop_null_rows(df, ["action", "order_id", "customer_email", "action_time"])
-        # df = outlier.remove_outliers_zscore(df, "order_id", 3)
-        # df = null_handling.fill_null_values_with_constant(df, "order_id", "unknown")
+        df = cleaning.clean_customer_email(df)
+        df = cleaning.clean_order_id(df)
+        df = uniformizing.uniformize_action_types(df)
+        df = null_handling.drop_null_rows(df, ["action", "order_id", "customer_email", "action_time"])
+        df = outlier.remove_outliers_zscore(df, "order_id", 3)
+        df = null_handling.fill_null_values_with_constant(df, "order_id", "unknown")
         print(f"Data Transformation finished. shape {df.shape}")
 
         # 3. Load Data to BigQuery
@@ -39,7 +40,10 @@ def gcs_to_bq(cloud_event):
             {"name":"action", "type":"STRING"},
             {"name":"action_time", "type":"TIMESTAMP"},
         ]
-        bq_loader.load_data_to_bq(df, dataset_id, table_id, table_schema)
+        #convert dataframe to list of dictionaries
+        data = json.loads(df.to_json(orient="records"))
+        #bq_loader.load_data_to_bq(df, dataset_id, table_id, table_schema)
+        bq_loader.load_data_to_bq(data, dataset_id, table_id, table_schema)
 
     except FileNotFoundError as e:
         print(f"Error: {e}")

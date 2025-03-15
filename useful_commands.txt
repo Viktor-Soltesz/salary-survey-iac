@@ -24,7 +24,7 @@ git push -u origin dev
 
 
 git add .
-git commit -m "modularized python part within cloud function"
+git commit -m "Allocated more memory for the containerization"
 git push -u origin dev
 
 ON INTERRUPTION:
