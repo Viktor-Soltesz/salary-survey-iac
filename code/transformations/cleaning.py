@@ -1,3 +1,7 @@
+"""
+This module contains functions for cleaning data.
+"""
+
 import pandas as pd
 
 def clean_customer_email(df: pd.DataFrame) -> pd.DataFrame:

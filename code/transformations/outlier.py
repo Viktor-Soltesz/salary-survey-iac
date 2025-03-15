@@ -1,3 +1,7 @@
+"""
+This module contains functions for handling outliers in data.
+"""
+
 import pandas as pd
 import numpy as np
 

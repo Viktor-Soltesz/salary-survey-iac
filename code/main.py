@@ -1,7 +1,11 @@
+"""
+This module contains the main function for the Cloud Function.
+"""
+import os
 import functions_framework
 import pandas as pd
 from google.cloud import bigquery, storage
-import os
+from io import StringIO
 from transformations import cleaning, uniformizing, null_handling, outlier
 
 @functions_framework.cloud_event
@@ -31,7 +35,7 @@ def gcs_to_bq(cloud_event):
     csv_data = blob.download_as_text()
     
     # Create a pandas DataFrame from the CSV data
-    df = pd.read_csv(pd.compat.StringIO(csv_data))
+    df = pd.read_csv(StringIO(csv_data))
     print(f"File loaded to dataframe. shape {df.shape}")
 
     # Data Transformation Pipeline

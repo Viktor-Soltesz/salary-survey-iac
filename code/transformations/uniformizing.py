@@ -1,3 +1,7 @@
+"""
+This module contains functions for uniformizing data.
+"""
+
 import pandas as pd
 
 def uniformize_action_types(df: pd.DataFrame) -> pd.DataFrame:

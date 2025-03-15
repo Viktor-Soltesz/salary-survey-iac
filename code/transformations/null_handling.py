@@ -1,3 +1,7 @@
+"""
+This module contains functions for handling null values in data.
+"""
+
 import pandas as pd
 
 def drop_null_rows(df: pd.DataFrame, column_names: list[str]) -> pd.DataFrame:
