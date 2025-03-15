@@ -1,0 +1,17 @@
+# Temporary files
+*.tmp
+*.bak
+*.swp
+
+# Compiled files
+__pycache__/
+*.pyc
+
+# venv
+venv/
+.venv/
+
+# Terraform files
+.terraform/
+*.tfstate
+*.tfstate.backup

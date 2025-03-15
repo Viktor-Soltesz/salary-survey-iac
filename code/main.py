@@ -1,72 +1,54 @@
-# Copyright 2023 Google LLC
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     https://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-
-from google.cloud import storage
 import functions_framework
 from google.cloud import bigquery, storage
 import os
+import pandas as pd
+from io import StringIO
 
+def extract_csv(bucket, blob_name):
+    """Extracts a CSV from GCS and returns a pandas DataFrame."""
+    storage_client = storage.Client()
+    bucket_obj = storage_client.bucket(bucket)
+    blob = bucket_obj.blob(blob_name)
+    csv_content = blob.download_as_text()  # Download as text into the python runtime environment
+    df = pd.read_csv(StringIO(csv_content))
+    return df
 
-def load_csv_to_bq(bucket, object):
-    # Construct a BigQuery client object.
+def transform_df(df):
+    """Transforms the DataFrame by stripping whitespace from string columns."""
+    for col in df.select_dtypes(include=['object']).columns:
+        df[col] = df[col].str.strip()
+    return df
+
+def archive_csv_df(df, blob_name):
+    """Archives the DataFrame by writing it as CSV to the archive bucket."""
+    archive_bucket_name = os.environ['GCS_ARCHIVE_BUCKET']
+    storage_client = storage.Client()
+    archive_bucket = storage_client.bucket(archive_bucket_name)
+    blob = archive_bucket.blob(blob_name)
+    csv_data = df.to_csv(index=False)
+    blob.upload_from_string(csv_data, content_type='text/csv')
+    print(f"Archived CSV to bucket {archive_bucket_name}/{blob_name}.")
+
+def load_df_to_bq(df, blob_name):
+    """Loads the DataFrame into BigQuery."""
     client = bigquery.Client()
-
     project_id = os.environ['DW_PROJECT_ID']
-    params = object.split("/")
+    # Assuming blob_name is formatted as "dataset/table/..."
+    params = blob_name.split("/")
     table_id = "{}.{}.{}".format(project_id, params[0], params[1])
     print(f"Table ID: {table_id}")
 
     job_config = bigquery.LoadJobConfig(
         autodetect=True,
-        skip_leading_rows=1,
-        # The source format defaults to CSV, so the line below is optional.
+        # Optionally, use WRITE_TRUNCATE or other dispositions based on your needs
+        write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE,
         source_format=bigquery.SourceFormat.CSV,
     )
-    uri = "gs://{}/{}".format(bucket, object)
-
-    load_job = client.load_table_from_uri(
-        uri, table_id, job_config=job_config
-    )  # Make an API request.
-
-    load_job.result()  # Waits for the job to complete.
-
-    destination_table = client.get_table(table_id)  # Make an API request.
+    
+    load_job = client.load_table_from_dataframe(df, table_id, job_config=job_config)
+    load_job.result()  # Wait for the job to complete.
+    destination_table = client.get_table(table_id)
     print("Table has now {} rows.".format(destination_table.num_rows))
-
-
-def move_blob(bucket_name, blob_name):
-    """Moves a blob from one bucket to another with a new name."""
-    destination_bucket_name = os.environ['GCS_ARCHIVE_BUCKET']
-
-    storage_client = storage.Client()
-    source_bucket = storage_client.bucket(bucket_name)
-    source_blob = source_bucket.blob(blob_name)
-    destination_bucket = storage_client.bucket(destination_bucket_name)
-
-    blob_copy = source_bucket.copy_blob(source_blob, destination_bucket, blob_name)
-    source_bucket.delete_blob(blob_name)
-
-    print(
-        "Blob {} in bucket {} moved to blob {} in bucket {}.".format(
-            source_blob.name,
-            source_bucket.name,
-            blob_copy.name,
-            destination_bucket.name,
-        )
-    )
-
 
 # Triggered by a change in a storage bucket
 @functions_framework.cloud_event
@@ -91,5 +73,11 @@ def trigger_gcs(cloud_event):
     print(f"Updated: {updated}")
 
     if 'csv' in name:
-        load_csv_to_bq(bucket, name)
-        move_blob(bucket, name)
+        # Extraction
+        df = extract_csv(bucket, name)
+        # Transformation
+        df = transform_df(df)
+        # Loading into BigQuery
+        load_df_to_bq(df, name)
+        # Archiving the transformed CSV
+        archive_csv_df(df, name)
