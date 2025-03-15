@@ -9,14 +9,27 @@ def extract_csv(bucket, blob_name):
     storage_client = storage.Client()
     bucket_obj = storage_client.bucket(bucket)
     blob = bucket_obj.blob(blob_name)
-    csv_content = blob.download_as_text()  # Download as text into the python runtime environment
+    csv_content = blob.download_as_text()  # Download as text
     df = pd.read_csv(StringIO(csv_content))
     return df
 
 def transform_df(df):
-    """Transforms the DataFrame by stripping whitespace from string columns."""
+    """Transforms the DataFrame by:
+       - Stripping whitespace from column names.
+       - Removing leading/trailing whitespace from string values.
+       - Converting the 'action_time' column to datetime.
+    """
+    # Strip whitespace from column names (ensuring they match the BigQuery schema)
+    df.columns = df.columns.str.strip()
+    
+    # Remove whitespace from string columns
     for col in df.select_dtypes(include=['object']).columns:
         df[col] = df[col].str.strip()
+        
+    # Convert the partitioning column to datetime (if present)
+    if 'action_time' in df.columns:
+        df['action_time'] = pd.to_datetime(df['action_time'], errors='coerce')
+    
     return df
 
 def archive_csv_df(df, blob_name):
@@ -40,7 +53,6 @@ def load_df_to_bq(df, blob_name):
 
     job_config = bigquery.LoadJobConfig(
         autodetect=True,
-        # Optionally, use WRITE_TRUNCATE or other dispositions based on your needs
         write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE,
         source_format=bigquery.SourceFormat.CSV,
     )
@@ -73,11 +85,11 @@ def trigger_gcs(cloud_event):
     print(f"Updated: {updated}")
 
     if 'csv' in name:
-        # Extraction
+        # Extraction: Read CSV into DataFrame
         df = extract_csv(bucket, name)
-        # Transformation
+        # Transformation: Clean column names, strip whitespace, and convert action_time
         df = transform_df(df)
-        # Loading into BigQuery
+        # Loading into BigQuery: Upload the DataFrame
         load_df_to_bq(df, name)
-        # Archiving the transformed CSV
+        # Archiving: Write the transformed CSV to the archive bucket
         archive_csv_df(df, name)
