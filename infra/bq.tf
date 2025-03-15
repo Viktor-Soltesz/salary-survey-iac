@@ -1,6 +1,6 @@
-resource "google_bigquery_dataset" "ecommerce" {
-  dataset_id  = "ecommerce"
-  description = "Store ecommerce data"
+resource "google_bigquery_dataset" "surveys" {
+  dataset_id  = "surveys"
+  description = "Store survey data"
   location    = var.region
   labels      = local.resource_labels
 
@@ -10,10 +10,10 @@ resource "google_bigquery_dataset" "ecommerce" {
   }
 }
 
-resource "google_bigquery_table" "order_events" {
-  dataset_id          = google_bigquery_dataset.ecommerce.dataset_id
-  table_id            = "order_events"
-  description         = "Store order events"
+resource "google_bigquery_table" "developer_salaries" {
+  dataset_id          = google_bigquery_dataset.surveys.dataset_id
+  table_id            = "developer_salaries"
+  description         = "Store developer salary survey data"
   deletion_protection = false
 
   # time_partitioning { # No partitioning for now, as dataset is small
