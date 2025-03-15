@@ -32,7 +32,7 @@ resource "google_cloudfunctions2_function" "function" {
   service_config {
     max_instance_count    = 1
     min_instance_count    = 0
-    available_memory      = "128Mi"
+    available_memory      = "512Mi"
     timeout_seconds       = 30
     service_account_email = google_service_account.function_sa.email
     environment_variables = {
