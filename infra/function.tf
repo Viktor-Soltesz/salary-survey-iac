@@ -20,7 +20,6 @@ resource "google_cloudfunctions2_function" "function" {
   build_config {
     runtime     = "python310"
     entry_point = "gcs_to_bq" # Set the entry point in the code
-
     source {
       storage_source {
         bucket = google_storage_bucket.gcf_source_bucket.name
@@ -32,7 +31,7 @@ resource "google_cloudfunctions2_function" "function" {
   service_config {
     max_instance_count    = 1
     min_instance_count    = 0
-    available_memory      = "128Mi"
+    available_memory      = "512Mi"
     timeout_seconds       = 30
     service_account_email = google_service_account.function_sa.email
     environment_variables = {

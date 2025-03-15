@@ -3,9 +3,9 @@ Main module for the Cloud Function. Orchestrates data extraction, transformation
 """
 import functions_framework
 import pandas as pd
-from transformations import cleaning, uniformizing, null_handling, outlier
-from .gcs_extractor import extract_data_from_gcs  # using relative import for modules in same folder
-from .bq_loader import load_data_to_bq  # using relative import for modules in same folder
+from transform import cleaning, uniformizing, null_handling, outlier
+from extract import gcs_extractor
+from load import bq_loader
 
 @functions_framework.cloud_event
 def gcs_to_bq(cloud_event):
@@ -18,7 +18,7 @@ def gcs_to_bq(cloud_event):
 
     try:
         # 1. Extract Data from GCS
-        df = extract_data_from_gcs(bucket_name, file_name)
+        df = gcs_extractor.extract_data_from_gcs(bucket_name, file_name)
 
         # 2. Transform Data
         print("Starting Data Transformation...")
@@ -39,7 +39,7 @@ def gcs_to_bq(cloud_event):
             {"name":"action", "type":"STRING"},
             {"name":"action_time", "type":"TIMESTAMP"},
         ]
-        load_data_to_bq(df, dataset_id, table_id, table_schema)
+        bq_loader.load_data_to_bq(df, dataset_id, table_id, table_schema)
 
     except FileNotFoundError as e:
         print(f"Error: {e}")
