@@ -18,7 +18,7 @@ resource "google_bigquery_table" "developer_salaries" {
 
   # time_partitioning { # No partitioning for now, as dataset is small
   #   type  = "DAY"
-  #   field = "action_time"
+  #   field = "work_year"  # Could use this if partitioning is added later
   # }
 
   labels = local.resource_labels
@@ -26,22 +26,72 @@ resource "google_bigquery_table" "developer_salaries" {
   schema = <<EOF
 [
   {
-    "name": "order_id",
+    "name": "work_year",
     "type": "STRING",
     "mode": "NULLABLE"
   },
   {
-    "name": "customer_email",
+    "name": "experience_level",
     "type": "STRING",
     "mode": "NULLABLE"
   },
   {
-    "name": "action",
+    "name": "employment_type",
     "type": "STRING",
     "mode": "NULLABLE"
   },
   {
-    "name": "action_time",
+    "name": "job_title",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "job_category",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "salary",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "salary_currency",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "salary_in_usd",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "employee_residence",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "country",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "remote_ratio",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "company_location",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "company_size",
+    "type": "STRING",
+    "mode": "NULLABLE"
+  },
+  {
+    "name": "company_size_category",
     "type": "STRING",
     "mode": "NULLABLE"
   }
