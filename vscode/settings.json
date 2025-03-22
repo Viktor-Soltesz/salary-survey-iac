@@ -1,0 +1,11 @@
+{
+    "python.analysis.extraPaths": ["./etl_pipeline"],
+    "python.testing.unittestArgs": [
+      "-v",
+      "-s",
+      "./etl_pipeline",
+      "-p",
+      "test_*.py"
+    ]
+  }
+  

@@ -1,0 +1,12 @@
+{
+    "Business Analyst": ["business intelligence", "bi analyst", "data analyst"],
+    "Software Engineer": ["software engineer", "backend developer", "frontend developer"],
+    "Data Scientist": ["data scientist", "machine learning engineer", "ai researcher"],
+    "Product Manager": ["product manager", "technical product owner"],
+    "DevOps Engineer": ["devops engineer", "site reliability engineer", "cloud engineer"],
+    "UX/UI Designer": ["ux designer", "ui designer", "product designer"],
+    "System Administrator": ["sysadmin", "network administrator"],
+    "Cybersecurity": ["cybersecurity analyst", "security engineer"],
+    "Database Administrator": ["database administrator", "db admin"],
+    "Uncategorized": []
+}

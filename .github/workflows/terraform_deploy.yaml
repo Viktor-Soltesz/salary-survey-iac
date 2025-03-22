@@ -27,7 +27,7 @@ jobs:
           sudo apt-get install zip -y
           zip -r ../infra/function-source.zip .
           ls -la ../infra/
-        working-directory: code
+        working-directory: etl_pipeline
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2

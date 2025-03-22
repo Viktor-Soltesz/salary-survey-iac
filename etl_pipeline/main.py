@@ -1,7 +1,12 @@
 # main.py
 import functions_framework
 from extract.extract_csv import extract_csv
-from transform.transform_df import transform_df
+from transform.standardize_format import standardize_format
+from transform.drop_nulls import drop_nulls
+from transform.clean_salary import clean_salary
+from transform.map_job_categories import map_job_categories
+from transform.map_country_codes import map_country_codes
+from transform.out_of_scope import out_of_scope
 from load.load_csv import archive_csv_df, load_df_to_bq
 
 # Triggered by a change in a storage bucket
@@ -29,8 +34,13 @@ def trigger_gcs(cloud_event):
     if 'csv' in name:
         # Extraction: Read CSV into DataFrame
         df = extract_csv(bucket, name)
-        # Transformation: Clean column names, strip whitespace
-        df = transform_df(df)
+        # Transformations
+        # df = standardize_format(df)
+        # df = drop_nulls(df)
+        # df = clean_salary(df)
+        # df = map_country_codes(df)
+        # df = map_job_categories(df)
+        # df = out_of_scope(df)
         # Loading into BigQuery: Upload the DataFrame
         load_df_to_bq(df, name)
         # Archiving: Write the transformed CSV to the archive bucket
