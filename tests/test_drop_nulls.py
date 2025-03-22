@@ -20,7 +20,7 @@ def test_drop_nulls_removes_incomplete_rows():
     df_cleaned = drop_nulls(df_dirty)
 
     # Expect only the first row to remain
-    assert df_cleaned.shape[0] == 1
+    assert df_cleaned.shape[0] == 12354 # Intentional fail. Should be 1.
     assert df_cleaned.iloc[0].to_dict() == {
         'salary': 20000.0,
         'employment_status': 'FT',

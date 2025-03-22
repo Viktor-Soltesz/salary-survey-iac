@@ -6,8 +6,33 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  test:
+    name: Run Unit Tests
     runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install -r etl_pipeline/requirements.txt
+          pip install pytest
+
+      - name: Run pytest
+        run: pytest
+        env:
+          PYTHONPATH: .  # Ensures etl_pipeline is importable
+
+  deploy:
+    name: Deploy Infrastructure
+    runs-on: ubuntu-latest
+    needs: test  # Waits for test job to pass
     environment: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
 
     env:
