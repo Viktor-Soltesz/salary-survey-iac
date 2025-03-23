@@ -21,7 +21,7 @@ def map_job_categories(df: pd.DataFrame) -> pd.DataFrame:
 
     # Load job category mapping from JSON file
     #mapping_path = os.path.join(os.path.dirname(__file__), 'job_categories.json')
-    mapping_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '..', 'assets', 'job_categories.json')
+    mapping_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '.', 'assets_etl', 'job_categories.json')
     mapping_path = os.path.abspath(mapping_path)
 
     with open(mapping_path, 'r', encoding='utf-8') as file:
