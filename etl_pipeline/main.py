@@ -35,12 +35,12 @@ def trigger_gcs(cloud_event):
         # Extraction: Read CSV into DataFrame
         df = extract_csv(bucket, name)
         # Transformations
-        # df = standardize_format(df)
-        # df = drop_nulls(df)
-        # df = clean_salary(df)
-        # df = map_country_codes(df)
-        # df = map_job_categories(df)
-        # df = out_of_scope(df)
+        df = standardize_format(df)
+        df = drop_nulls(df)
+        df = clean_salary(df)
+        df = map_country_codes(df)
+        df = map_job_categories(df)
+        df = out_of_scope(df)
         # Loading into BigQuery: Upload the DataFrame
         load_df_to_bq(df, name)
         # Archiving: Write the transformed CSV to the archive bucket

@@ -1,0 +1,11 @@
+Year,Seniority Level, Employment status ,   job_title   ,salary,salary_currency,salary_in_usd,country,remote_ratio,company_location,company_size
+2024,mi,ft,data analyst,32000,usd,32000,hu,100,hu,l
+2024,MI,FT,DATA ANALYST,32000,USD,32000,HU,100,HU,L
+,mi,ft,data analyst,32000,usd,32000,hu,100,hu,l
+2024,,ft,data analyst,32000,usd,32000,hu,100,hu,l
+2024,mi,,data analyst,32000,usd,32000,hu,100,hu,l
+2024,mi,ft,,32000,usd,32000,hu,100,hu,l
+2024,mi,ft,data analyst,32000,usd,,hu,100,hu,l
+2024,mi,ft,data analyst,32000,usd,32000,,100,hu,l
+2024,mi,ft,data analyst,32000,usd,"32,000",hu,100,hu,l
+2024,mi,ft,ETL Developer,32000,usd,32000,hu,100,hu,l

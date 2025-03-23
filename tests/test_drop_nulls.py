@@ -2,8 +2,9 @@ from io import StringIO
 import pandas as pd
 from etl_pipeline.transform.drop_nulls import drop_nulls
 
-def test_drop_nulls_removes_incomplete_rows():
-    csv_data = """salary,employment_status,country,seniority_level,job_title,year
+def test_drop_nulls_removes_incomplete_rows(): # csv-style definition for better usability. It needs StringIO, but much more readable/ easier expandable.
+    csv_data = """
+salary,employment_status,country,seniority_level,job_title,year
 20000,FT,HU,EN,Data Analyst,2024
 ,FT,HU,EN,Data Analyst,2024
 20000,,HU,EN,Data Analyst,2024
@@ -20,7 +21,7 @@ def test_drop_nulls_removes_incomplete_rows():
     df_cleaned = drop_nulls(df_dirty)
 
     # Expect only the first row to remain
-    assert df_cleaned.shape[0] == 12354 # Intentional fail. Should be 1.
+    assert df_cleaned.shape[0] == 1 # Intentional fail. Should be 1.
     assert df_cleaned.iloc[0].to_dict() == {
         'salary': 20000.0,
         'employment_status': 'FT',

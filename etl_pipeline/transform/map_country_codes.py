@@ -14,7 +14,9 @@ def map_country_codes(df: pd.DataFrame) -> pd.DataFrame:
     """
 
     # Load country mapping from JSON file
-    mapping_path = os.path.join(os.path.dirname(__file__), 'country_mapping.json')
+    #mapping_path = os.path.join(os.path.dirname(__file__), 'country_mapping.json')
+    mapping_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), '..', 'assets', 'country_mapping.json')
+    mapping_path = os.path.abspath(mapping_path)
     
     with open(mapping_path, 'r', encoding='utf-8') as file:
         country_to_code = json.load(file)

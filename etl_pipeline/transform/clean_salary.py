@@ -33,8 +33,8 @@ def clean_salary(df: pd.DataFrame) -> pd.DataFrame:
         # Remove '+' and '-' symbols
         value = value.replace('+', '').replace('-', '')
 
-        # Replace commas with dots for decimal standardization
-        value = value.replace(',', '.')
+        # Replace commas with whitespace. Assuming commas are used as thousands separators.
+        value = value.replace(',', '')
 
         # Remove non-numeric characters (except dots for decimal values)
         value = re.sub(r'[^0-9.]', '', value)

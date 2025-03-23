@@ -1,8 +1,0 @@
-salary,employment_status,country,seniority_level,job_title,year
-20000,FT,HU,EN,Data Analyst,2024
-,FT,HU,EN,Data Analyst,2024
-20000,,HU,EN,Data Analyst,2024
-20000,FT,,EN,Data Analyst,2024
-20000,FT,HU,,Data Analyst,2024
-20000,FT,HU,EN,,2024
-20000,FT,HU,EN,Data Analyst,

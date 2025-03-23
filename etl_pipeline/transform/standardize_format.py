@@ -16,6 +16,9 @@ def standardize_format(df: pd.DataFrame) -> pd.DataFrame:
     
     # Convert all column names to lowercase
     df.columns = df.columns.str.lower()
+
+    # Strip leading/trailing whitespaces from column names
+    df.columns = df.columns.str.strip()
     
     # Replace spaces with underscores in column names
     df.columns = df.columns.str.replace(' ', '_', regex=False)
@@ -33,6 +36,7 @@ def standardize_format(df: pd.DataFrame) -> pd.DataFrame:
 
     # Convert all object-type (string) columns to lowercase
     str_columns = df.select_dtypes(include=['object']).columns
-    df[str_columns] = df[str_columns].applymap(lambda x: x.lower() if isinstance(x, str) else x)
+    for col in str_columns:
+        df[col] = df[col].map(lambda x: x.lower() if isinstance(x, str) else x)
 
     return df

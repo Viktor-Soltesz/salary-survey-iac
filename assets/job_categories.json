@@ -1,0 +1,132 @@
+{
+    "Project managers": [
+    "project manager", "pm" , "program manager", "project manager ", "projectingenieur", "project manager (pm)", "program/project manager", "technical lead",
+    "project manager & scrum master", "technical project manager", "digital project manager", "it project manager",
+    "scrum master", "scrum master / agile coach", "sr project manager", "senior project manager", "senior program manager", "engineering project manager",
+    "agile project manager", "project leader", "director of engineering", "director of project management", "director of technology", "director of operations",
+    "project consultant", "project coordinator", "project supervisor", "project assistant", "project administrator", "project management officer",
+    "program manager (technical)", "construction project manager", "it program manager", "it project coordinator", "it project management consultant",
+    "it project manager ", "associate project manager", "project portfolio manager", "project office manager", "product manager",
+    "technical program manager", "digital transformation project manager", "technical program manager (tpm)", "digital project lead", "delivery manager",
+    "global project manager", "global program manager", "business program manager", "service delivery manager", "it delivery manager", "operations project manager",
+    "customer project manager", "implementation project manager", "senior delivery manager", "business development manager operations", "project & operations manager",
+    "it operations manager", "manager (program, project, operations, executive-level, etc)", "project & operations manager", "technical project lead"
+    ],
+    "Team leaders": ["team lead", "team leader"],
+    "Leaders": ["head of", "lead", "principal", "staff", "vp", "cto"],
+    "Other managers": ["manager"],
+    "Full Stack Developers": ["full stack", "full-stack", "fullstack"],
+    "Architects": ["architect", "data modeler", "architekt"],
+    "Cloud": ["cloud engineer", "cloud consulting", "cloud platform engineer", "cloud infrastructure engineer", "cloud automation engineer"],
+    
+    "PHP Developers": ["php"],
+    "SAP Specialists": ["sap"],
+    "NET Developers": [".net", "c#"],
+    "C++ Developers": ["c++"],
+    "Mobile": ["ios","mobile", "android","application"],
+    "Java/Scala Developers": ["java", "scala","javascript","js", "angular"],
+    "Other languages": ["python", "ruby", "oracle", "erlang", "go", "golang", "pyhon"],
+    
+    "Embedded Engineers": ["embedded"],
+    "Front End": ["front end", "front-end","frontend","frontent"],
+    "Back End": ["back end","back-end", "backend"],
+    "Web developer": ["web developer", "webdev", "web-entwickler"],
+    "Game": ["unreal","game","unity","unity3d"],
+    "Hardware":["hardware"],
+    "Security":["security"],
+    "Database Dev & Admin":["dba", "database developer", "database engineer", "database administrator", "database manager", "databengineer", "data administrator"],
+    "System admin": ["sys admin", "sysadmin", "system administrator", "systems administrator", "it administration", "it admin", "network administrator"],
+    "Statisticians": ["statistician"],
+    "Consultant": ["consultant", "berater", "consulter", "consulting"],
+    
+    "Researcher": ["researcher"],
+    "Prompt Engineer": ["prompt"],
+    "Bioinformatics": ["bioinformatics", "biostatistics", "computational biologist"],
+    
+    "Business Analyst": [
+    "business analyst", "business intelligence analyst", "bi analyst", "bi specialist",
+    "business insights analyst", "financial data analyst", "compliance data analyst", "product data analyst", "marketing data analyst", "business data analyst",
+    "data analyst (business, marketing, financial, quantitative, etc)", "business intelligence manager", "business intelligence engineer", "business intelligence specialist",
+    "business intelligence data analyst", "business analyst/re", "business analyst ", "business analyst / business development manager operations",
+    "business development manager operations", "business intelligence"
+    ],
+    
+    "Data Analyst": [
+    "data analyst", "business intelligence developer", "bi developer", "research analyst", "analytics engineer", "data management analyst", "data visualization",
+    "data strategist",
+    "data analytics associate", "product analyst", "marketing analyst", "dana analyst", "data reporting analyst", "data quality analyst", "finance data analyst",
+    "compliance data analyst", "product data analyst", "marketing data analyst", "financial data analyst", "data analytics consultant", "data integration analyst",
+    "insight analyst", "data analyst (business, marketing, financial, quantitative, etc)", "business data analyst", "data modeller", "data analytics manager",
+    "data operations analyst", "data quality manager", "data science analyst", "data specialist", "data strategy manager", "data management consultant",
+    "data analytics lead", "data analytics specialist", "data operations manager", "data product analyst", "data product owner", "data quality engineer",
+    "data visualization analyst", "data visualization specialist"
+    ],
+    
+    "Data Engineer": [
+    "ml ops engineer", "data engineer", "database engineer", "big data engineer", "etl developer", "etl engineer", "big data developer", "data operations",
+    "machine learning operations engineer","machine learning infrastructure engineer", "machine learning developer",
+    "data integration", "data processing", "data developer", "data integration engineer", "data pipeline engineer", "cloud data engineer", "data infrastructure engineer",
+    "data warehouse engineer", "data migration engineer", "etl/data engineer", "data platform engineer", "data ops engineer", "data services engineer",
+    "data solutions engineer", "data systems engineer", "data automation engineer", "data engineering manager", "data engineer lead", "data engineering consultant",
+    "data operations engineer", "data modeling engineer", "data engineering analyst", "data warehouse developer", "data engineer/scientist", "data quality engineer",
+    "data mining engineer", "data software engineer", "data engineering specialist"
+    ],
+    
+    "Data Scientist/ ML Engineer": [
+    "ai developer", "deep learning engineer", "data science", "data scientist", "machine learning engineer", "ai engineer", "ml engineer", "research scientist", "deep learning engineer",
+    "machine learning specialist", "ai programmer", "ai scientist", "decision scientist",
+    "nlp engineer", "computer vision engineer", "applied scientist", "ai/ml engineer", "data scientist/analyst", "data science engineer", "data science analyst",
+    "data science manager", "machine learning scientist", "applied ml engineer", "ai/ml scientist", "research engineer", "mlops engineer", "data scientist lead",
+    "data scientist manager", "senior data scientist", "principal data scientist", "staff machine learning engineer", "staff data scientist", "machine learning software engineer",
+    "machine learning manager", "machine learning ops engineer", "principal machine learning engineer", "applied machine learning engineer", "ml engineer/analyst",
+    "data & applied scientist", "machine learning research engineer", "machine learning modeler", "ai/ml researcher", "mlops/data scientist", "ai/ ml research engineer",
+    "ml engineer/research scientist", "ai/ml engineer/researcher", "machine learning engineet"
+    ],
+    
+    "Data Governance & Compliance": [
+    "data governance specialist", "data governance manager", "compliance data analyst", "data quality manager", "data quality analyst", "data quality engineer", "data management analyst", "data management consultant", "data management specialist"
+    ],
+
+    "Software Engineer":[
+    "software engineer", "software developer"
+    ],
+    
+    "DevOps Engineer": [
+    "devops engineer", "devops", "devops engineer ",
+    "software engineer (devops)", "system engineer", "system administrator", "systems engineer",
+    "it infrastructure consultant", "it consultant", "solution engineer", "lead devops", "lead devops engineer", "technical lead devops",
+    "sr. devops", "sr. engineer", "sre", "sre engineer", "site reliability engineer", "site reliability engineer "
+    ],
+    
+    "UI/UX Designers": [
+    "ux designer", "ui designer", "ux/ui designer", "designer (ui, ux)", "designer (ui/ux)", "product designer", "interaction designer", "user experience designer", "visual designer", "frontend designer", "creative designer", "web designer"
+    ],
+    
+    "QA/Test Engineers": [
+    "qa", "testing", "tester", "test", "qa test engineer", "qa engineer", "qa automation engineer", "automation qa", "test automation engineer", "manual qa",
+    "qa automation", "qa consultant", "qa analyst", "software test engineer", "quality engineer", "test engineer", "test manager", "testautomation",
+    "automation test engineer", "quality assurance", "quality assurance engineer", "qa specialist", "qa automation specialist", "qa automation"
+    ],
+    
+    "Other Engineers": [
+    "platform engineer", "engineer (non-software)", "network engineer", "support engineer", "electrical engineer", "firmware engineer", "robotics engineer", "it engineer", "reporting engineer", "ta engineer", "cisco engineer"
+    ],
+    
+    "Other Developers": [
+    "web developer", "sw developer", "softwaredeveloper", "xr", "crypto", "rpa developer", "sharepoint developer", "nav developer", "dwh developer", "web deleloper", "erp developer"
+    ],
+    
+    "Out of scope": [
+    "teacher", "professor", "lawyer", "sales", "pcb designer", "coach", "producer", "recruiter", "agile", "banker", "quant"
+    ],
+    "System...": [
+    "system"
+    ],
+    "Advocacy":["developer advocate", "developer relations/advocacy"
+    ],
+    
+    "Too vague answers": [
+    "engineer", "developer", "designer", "support", "operations", "analyst", "spezialist", "specialist"
+    ],
+    "Other": ["other"]
+}
