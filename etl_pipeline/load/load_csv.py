@@ -1,5 +1,9 @@
-from google.cloud import storage, bigquery
+"""
+Module to archive a DataFrame as CSV in a GCS bucket and load it into BigQuery.
+"""
+
 import os
+from google.cloud import storage, bigquery
 
 def archive_csv_df(df, blob_name):
     """Archives the DataFrame by writing it as CSV to the archive bucket."""
@@ -17,14 +21,14 @@ def load_df_to_bq(df, blob_name):
     project_id = os.environ['DW_PROJECT_ID']
     # Assuming blob_name is formatted as "dataset/table/..."
     params = blob_name.split("/")
-    table_id = "{}.{}.{}".format(project_id, params[0], params[1])
+    table_id = f"{project_id}.{params[0]}.{params[1]}"
     print(f"Table ID: {table_id}")
 
     job_config = bigquery.LoadJobConfig(
         write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE,
     )
-    
+
     load_job = client.load_table_from_dataframe(df, table_id, job_config=job_config)
     load_job.result()  # Wait for the job to complete.
     destination_table = client.get_table(table_id)
-    print("Table has now {} rows.".format(destination_table.num_rows))
+    print(f"Table has now {destination_table.num_rows} rows.")

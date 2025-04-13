@@ -1,3 +1,7 @@
+"""
+This module filters out of scope entries from the dataset.
+"""
+
 import pandas as pd
 
 def out_of_scope(df: pd.DataFrame) -> pd.DataFrame:

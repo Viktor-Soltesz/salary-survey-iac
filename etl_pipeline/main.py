@@ -1,4 +1,7 @@
-# main.py
+"""
+ETL Pipeline for CSV files in Google Cloud Storage
+"""
+
 import functions_framework
 from extract.extract_csv import extract_csv
 from transform.standardize_format import standardize_format
@@ -9,9 +12,11 @@ from transform.map_country_codes import map_country_codes
 from transform.out_of_scope import out_of_scope
 from load.load_csv import archive_csv_df, load_df_to_bq
 
-# Triggered by a change in a storage bucket
 @functions_framework.cloud_event
 def trigger_gcs(cloud_event):
+    """
+    Triggered by a change in a storage bucket.
+    """
     data = cloud_event.data
 
     event_id = cloud_event["id"]

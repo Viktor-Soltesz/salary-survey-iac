@@ -1,3 +1,7 @@
+"""
+Module to drop rows with null values in critical columns.
+"""
+
 import pandas as pd
 
 def drop_nulls(df: pd.DataFrame) -> pd.DataFrame:
@@ -11,8 +15,14 @@ def drop_nulls(df: pd.DataFrame) -> pd.DataFrame:
     """
 
     # Define required columns
-    required_columns = ['salary', 'employment_status', 'country', 'seniority_level', 'job_title', 'year']
-    
+    required_columns = [
+        'salary', 
+        'employment_status', 
+        'country', 
+        'seniority_level', 
+        'job_title', 
+        'year']
+
     # Drop rows where any of the required columns have NaN values
     df = df.dropna(subset=required_columns)
 

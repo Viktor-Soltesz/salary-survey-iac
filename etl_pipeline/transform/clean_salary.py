@@ -1,5 +1,9 @@
-import pandas as pd
+"""
+Module Cleans and transforms the 'salary' column in a DataFrame.
+"""
+
 import re
+import pandas as pd
 
 def clean_salary(df: pd.DataFrame) -> pd.DataFrame:
     """
@@ -25,8 +29,8 @@ def clean_salary(df: pd.DataFrame) -> pd.DataFrame:
     # Convert to string and clean salary values
     def clean_salary_value(value):
         if pd.isna(value):
-            return None  # Keep NaNs
-        
+            return None
+
         # Convert to string and strip whitespaces
         value = str(value).strip()
 

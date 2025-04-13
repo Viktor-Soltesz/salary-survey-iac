@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import pandas.testing as pdt
+import pytest
 from etl_pipeline.transform.clean_salary import clean_salary
 
 def test_clean_salary_values_are_cleaned_and_numeric():
@@ -35,3 +36,20 @@ def test_clean_salary_values_are_cleaned_and_numeric():
 
     # This comparison handles NaN correctly
     pdt.assert_series_equal(df_cleaned['salary'], expected_salaries, check_names=True)
+
+def test_clean_salary_raises_keyerror_if_column_missing():
+    """
+    Tests that clean_salary raises a KeyError if the 'salary' column is missing.
+    """
+    # Create a DataFrame *without* the 'salary' column
+    df_invalid = pd.DataFrame({
+        'some_other_column': ['a', 'b', 'c'],
+        'another_col': [1, 2, 3]
+    })
+
+    # Use pytest.raises to assert that a KeyError is raised
+    with pytest.raises(KeyError) as excinfo:
+        clean_salary(df_invalid)
+
+    # Optionally, assert the specific error message
+    assert "Column 'salary' not found in the DataFrame." in str(excinfo.value)

@@ -1,3 +1,7 @@
+"""
+Standardize the format of a DataFrame by renaming columns and converting string values to lowercase.
+"""
+
 import pandas as pd
 
 def standardize_format(df: pd.DataFrame) -> pd.DataFrame:
@@ -13,13 +17,13 @@ def standardize_format(df: pd.DataFrame) -> pd.DataFrame:
     Returns:
         pd.DataFrame: Transformed DataFrame.
     """
-    
+
     # Convert all column names to lowercase
     df.columns = df.columns.str.lower()
 
     # Strip leading/trailing whitespaces from column names
     df.columns = df.columns.str.strip()
-    
+
     # Replace spaces with underscores in column names
     df.columns = df.columns.str.replace(' ', '_', regex=False)
 

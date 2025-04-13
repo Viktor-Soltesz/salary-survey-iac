@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    name: Run Unit Tests
+    name: Run Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -22,7 +22,13 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r etl_pipeline/requirements.txt
-          pip install pytest
+          pip install pytest pylint
+
+      - name: Run pylint
+        run: |
+          pylint etl_pipeline --exit-zero
+        env:
+          PYTHONPATH: .
 
       - name: Run pytest
         run: pytest

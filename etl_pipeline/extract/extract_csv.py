@@ -1,6 +1,10 @@
+"""
+Extract CSV from Google Cloud Storage (GCS) and load into a pandas DataFrame.
+"""
+
+from io import StringIO
 from google.cloud import storage
 import pandas as pd
-from io import StringIO
 
 def extract_csv(bucket, blob_name):
     """Extracts a CSV from GCS and returns a pandas DataFrame."""
