@@ -1,7 +1,8 @@
+# requirements-dev.txt
 pytest
 pytest-cov
 pylint
 mypy
 pandas-stubs
 pip-audit
-setuptools>=65.5.1
+setuptools>=65.5.1 # otherwise this would be a vulnerability, according to pip-audit
