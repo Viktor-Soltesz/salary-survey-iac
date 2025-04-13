@@ -32,7 +32,7 @@ jobs:
       
       - name: Run mypy type checks
         run: |
-          mypy etl_pipeline --ignore-missing-imports
+          mypy etl_pipeline
         env:
           PYTHONPATH: .
 
