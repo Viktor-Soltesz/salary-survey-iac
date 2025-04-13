@@ -3,6 +3,7 @@ ETL Pipeline for CSV files in Google Cloud Storage
 """
 
 import functions_framework
+from cloudevents.http import CloudEvent
 from extract.extract_csv import extract_csv
 from transform.standardize_format import standardize_format
 from transform.drop_nulls import drop_nulls
@@ -12,8 +13,9 @@ from transform.map_country_codes import map_country_codes
 from transform.out_of_scope import out_of_scope
 from load.load_csv import archive_csv_df, load_df_to_bq
 
+
 @functions_framework.cloud_event
-def trigger_gcs(cloud_event):
+def trigger_gcs(cloud_event: CloudEvent) -> None:
     """
     Triggered by a change in a storage bucket.
     """

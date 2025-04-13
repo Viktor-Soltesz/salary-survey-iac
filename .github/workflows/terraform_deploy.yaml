@@ -29,6 +29,12 @@ jobs:
           pylint etl_pipeline --exit-zero
         env:
           PYTHONPATH: .
+      
+      - name: Run mypy type checks
+        run: |
+          mypy etl_pipeline
+        env:
+          PYTHONPATH: .
 
       - name: Run pytest
         run: pytest

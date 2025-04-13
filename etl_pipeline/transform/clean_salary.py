@@ -3,6 +3,7 @@ Module Cleans and transforms the 'salary' column in a DataFrame.
 """
 
 import re
+from typing import Any, Optional
 import pandas as pd
 
 def clean_salary(df: pd.DataFrame) -> pd.DataFrame:
@@ -27,7 +28,7 @@ def clean_salary(df: pd.DataFrame) -> pd.DataFrame:
         raise KeyError("Column 'salary' not found in the DataFrame.")
 
     # Convert to string and clean salary values
-    def clean_salary_value(value):
+    def clean_salary_value(value: Any) -> Optional[float]:
         if pd.isna(value):
             return None
 

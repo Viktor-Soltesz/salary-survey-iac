@@ -6,7 +6,7 @@ from io import StringIO
 from google.cloud import storage
 import pandas as pd
 
-def extract_csv(bucket, blob_name):
+def extract_csv(bucket: str, blob_name: str) -> pd.DataFrame:
     """Extracts a CSV from GCS and returns a pandas DataFrame."""
     storage_client = storage.Client()
     bucket_obj = storage_client.bucket(bucket)

@@ -5,6 +5,7 @@ Module to map job titles to standardized job categories.
 import json
 import re
 import os
+from typing import Any, Dict, List
 import pandas as pd
 
 def map_job_categories(df: pd.DataFrame) -> pd.DataFrame:
@@ -34,7 +35,7 @@ def map_job_categories(df: pd.DataFrame) -> pd.DataFrame:
     mapping_path = os.path.abspath(mapping_path)
 
     with open(mapping_path, 'r', encoding='utf-8') as file:
-        job_categories = json.load(file)
+        job_categories: Dict[str, List[str]]  = json.load(file)
 
     # Clean job titles before categorization
     df['job_title'] = df['job_title'].str.replace('senior', '', case=False, regex=False)
@@ -42,7 +43,7 @@ def map_job_categories(df: pd.DataFrame) -> pd.DataFrame:
     df['job_title'] = df['job_title'].str.strip()
 
     # Function to categorize job title
-    def categorize_job_title(job_title: str) -> str:
+    def categorize_job_title(job_title: Any) -> str:
         if pd.isna(job_title):
             return "Uncategorized"
 
