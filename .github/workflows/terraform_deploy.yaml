@@ -24,6 +24,9 @@ jobs:
           pip install -r etl_pipeline/requirements.txt
           pip install -r etl_pipeline/requirements-dev.txt
 
+      - name: Run pip-audit
+        run: pip-audit
+
       - name: Run pylint
         run: |
           pylint etl_pipeline --exit-zero

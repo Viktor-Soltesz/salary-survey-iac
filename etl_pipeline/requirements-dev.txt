@@ -3,3 +3,4 @@ pytest-cov
 pylint
 mypy
 pandas-stubs
+pip-audit
