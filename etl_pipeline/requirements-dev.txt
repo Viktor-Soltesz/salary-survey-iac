@@ -4,3 +4,4 @@ pylint
 mypy
 pandas-stubs
 pip-audit
+setuptools>=65.5.1
