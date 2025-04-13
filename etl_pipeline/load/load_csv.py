@@ -4,7 +4,7 @@ Module to archive a DataFrame as CSV in a GCS bucket and load it into BigQuery.
 
 import os
 import pandas as pd
-from google.cloud import storage, bigquery
+from google.cloud import storage, bigquery # type: ignore[attr-defined]
 
 def archive_csv_df(df: pd.DataFrame, blob_name: str) -> None:
     """Archives the DataFrame by writing it as CSV to the archive bucket."""

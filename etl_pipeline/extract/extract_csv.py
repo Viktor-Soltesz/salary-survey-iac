@@ -3,7 +3,7 @@ Extract CSV from Google Cloud Storage (GCS) and load into a pandas DataFrame.
 """
 
 from io import StringIO
-from google.cloud import storage
+from google.cloud import storage # type: ignore[attr-defined]
 import pandas as pd
 
 def extract_csv(bucket: str, blob_name: str) -> pd.DataFrame:
