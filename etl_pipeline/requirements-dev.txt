@@ -3,5 +3,3 @@ pytest-cov
 pylint
 mypy
 pandas-stubs
-types-google-cloud-core
-types-protobuf

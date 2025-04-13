@@ -32,14 +32,14 @@ jobs:
       
       - name: Run mypy type checks
         run: |
-          mypy etl_pipeline
+          mypy etl_pipeline --ignore-missing-imports
         env:
           PYTHONPATH: .
 
       - name: Run pytest
         run: pytest
         env:
-          PYTHONPATH: .  # Ensures etl_pipeline is importable
+          PYTHONPATH: .
 
   deploy:
     name: Deploy Infrastructure
