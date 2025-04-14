@@ -18,7 +18,7 @@ def test_clean_salary_values_are_cleaned_and_numeric():
             '50,000+',    # has comma, plus sign
             '€60000',     # has euro symbol
             ' 75,000-',   # whitespace, comma, minus
-            '9000000',    # too high (should remain for now since outlier filtering is not included here)
+            '9000000',    # too high (should remain for now since outlier are not handled here)
             'notanumber', # should become None
             None,         # should remain None
             42000         # already clean

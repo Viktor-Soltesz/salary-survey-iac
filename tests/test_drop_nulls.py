@@ -6,9 +6,10 @@ from io import StringIO
 import pandas as pd
 from etl_pipeline.transform.drop_nulls import drop_nulls
 
-def test_drop_nulls_removes_incomplete_rows(): # csv-style definition for better usability. It needs StringIO, but much more readable/ easier expandable.
+def test_drop_nulls_removes_incomplete_rows():
     """
     Test the drop_nulls function to ensure it removes rows with null values in critical columns.
+    csv-style definition for better usability. It needs StringIO, but much more readable/ easier expandable.
     """
     csv_data = """
 salary,employment_status,country,seniority_level,job_title,year

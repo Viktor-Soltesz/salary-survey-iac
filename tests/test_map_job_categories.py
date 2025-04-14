@@ -10,9 +10,7 @@ import numpy as np
 from etl_pipeline.transform.map_job_categories import map_job_categories
 
 def test_map_job_categories_applies_expected_labels():
-    """ 
-    Simulate a CSV file with dirty job titles and test the mapping function.
-    """
+    """Simulate a CSV file with dirty job titles and test the mapping function."""
     # Define mock job categories mapping
     mock_mapping = {
         "Data": ["data analyst", "data scientist"],
@@ -57,6 +55,7 @@ AI Researcher
     pd.testing.assert_series_equal(df_cleaned["job_category"], expected_categories)
 
 def test_map_job_categories_handles_null():
+    """Test the function with different representations of null values."""
     mock_mapping = {"Test": ["test"]}
     df_dirty = pd.DataFrame({'job_title': [None, pd.NA, np.nan]}) # Different ways to represent null
 
@@ -65,5 +64,10 @@ def test_map_job_categories_handles_null():
         with patch("os.path.join", return_value="mocked_path.json"):
             df_cleaned = map_job_categories(df_dirty.copy())
 
-    expected_categories = pd.Series(["Uncategorized", "Uncategorized", "Uncategorized"], name="job_category")
+    expected_categories = pd.Series([
+        "Uncategorized", 
+        "Uncategorized", 
+        "Uncategorized"], 
+        name="job_category"
+    )
     pd.testing.assert_series_equal(df_cleaned["job_category"], expected_categories)

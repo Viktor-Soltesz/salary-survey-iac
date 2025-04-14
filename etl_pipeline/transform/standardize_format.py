@@ -1,5 +1,6 @@
 """
-Standardize the format of a DataFrame by renaming columns and converting string values to lowercase.
+Standardize the format of a DataFrame 
+by renaming columns and converting string values to lowercase.
 """
 
 import pandas as pd

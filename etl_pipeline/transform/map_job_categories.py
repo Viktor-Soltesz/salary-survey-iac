@@ -29,8 +29,8 @@ def map_job_categories(df: pd.DataFrame) -> pd.DataFrame:
     mapping_path = os.path.join(
         os.path.dirname(os.path.dirname(__file__)),
         '.',
-         'assets_etl', 
-         'job_categories.json'
+        'assets_etl', 
+        'job_categories.json'
     )
     mapping_path = os.path.abspath(mapping_path)
 
