@@ -1,12 +1,18 @@
-import pandas as pd
+"""
+Test the map_job_categories function from the ETL pipeline.
+"""
+
 import json
-import re
 from io import StringIO
 from unittest.mock import patch, mock_open
+import pandas as pd
 import numpy as np
 from etl_pipeline.transform.map_job_categories import map_job_categories
 
 def test_map_job_categories_applies_expected_labels():
+    """ 
+    Simulate a CSV file with dirty job titles and test the mapping function.
+    """
     # Define mock job categories mapping
     mock_mapping = {
         "Data": ["data analyst", "data scientist"],

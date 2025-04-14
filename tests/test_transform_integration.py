@@ -1,5 +1,9 @@
-import pandas as pd
+"""
+Integration test for the entire transformation pipeline from dirty to clean data.
+"""
+
 import os
+import pandas as pd
 from etl_pipeline.transform.standardize_format import standardize_format
 from etl_pipeline.transform.clean_salary import clean_salary
 from etl_pipeline.transform.out_of_scope import out_of_scope
@@ -8,6 +12,9 @@ from etl_pipeline.transform.map_country_codes import map_country_codes
 from etl_pipeline.transform.map_job_categories import map_job_categories
 
 def test_transformation_pipeline_from_dirty_to_clean():
+    """
+    Test the entire transformation pipeline from dirty to clean data.
+    """
     # Define paths
     base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     assets_dir = os.path.join(base_dir, 'assets')

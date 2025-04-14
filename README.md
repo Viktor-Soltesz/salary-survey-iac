@@ -1,3 +1,5 @@
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/Viktor-Soltesz/salary-survey-iac?branch=main)](https://www.codacy.com/gh/Viktor-Soltesz/salary-survey-iac/dashboard)
+[![Codacy Coverage Badge](https://app.codacy.com/project/badge/Coverage/Viktor-Soltesz/salary-survey-iac?branch=main)](https://www.codacy.com/gh/Viktor-Soltesz/salary-survey-iac/dashboard)
 # Salary Survey Infrastructure as Code (IaC)
 
 This repository contains the **Terraform-based Infrastructure as Code (IaC)** setup for the **Salary Survey Data Pipeline** on **Google Cloud Platform (GCP)**.

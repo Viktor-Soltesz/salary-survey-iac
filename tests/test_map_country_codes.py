@@ -1,10 +1,17 @@
-import pandas as pd
+"""
+Test the map_country_codes function from the ETL pipeline.
+"""
+
 import json
-import os
 from unittest.mock import mock_open, patch
+import pandas as pd
 from etl_pipeline.transform.map_country_codes import map_country_codes
 
 def test_map_country_codes_replaces_names_with_codes():
+    """
+    Test the map_country_codes function to ensure 
+    it correctly replaces country names with their respective codes.
+    """
     # Sample test DataFrame
     df_dirty = pd.DataFrame({
         'country': ['Germany', 'France', 'India', 'Unknown']

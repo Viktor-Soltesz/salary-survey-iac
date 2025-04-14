@@ -1,3 +1,7 @@
+"""
+Unit tests for the clean_salary function in the ETL pipeline.
+"""
+
 import numpy as np
 import pandas as pd
 import pandas.testing as pdt
@@ -5,6 +9,9 @@ import pytest
 from etl_pipeline.transform.clean_salary import clean_salary
 
 def test_clean_salary_values_are_cleaned_and_numeric():
+    """
+    Tests that the clean_salary function correctly cleans and converts salary values to numeric.
+    """
     # Define test input as a DataFrame
     df_dirty = pd.DataFrame({
         'salary': [

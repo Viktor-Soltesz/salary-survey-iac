@@ -1,8 +1,15 @@
-import pandas as pd
+"""
+test_standardize_format.py
+"""
+
 from io import StringIO
+import pandas as pd
 from etl_pipeline.transform.standardize_format import standardize_format
 
 def test_standardize_format_transforms_headers_and_strings():
+    """
+    Test the standardize_format function to ensure it correctly transforms headers and string values.
+    """
     csv_data = """
 Work Year,Experience Level , Employment_Type,Employee residence,Salary,Salary in USD,Job Title
 2024,Senior,FT,HU,20000,22000,Data Analyst
