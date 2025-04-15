@@ -44,4 +44,5 @@ This project automates the provisioning of cloud resources needed for a **data a
 - **GitHub Actions** configured with GCP credentials
 
 ### **2: Run Initial Setup**
+
 bash prereq.sh

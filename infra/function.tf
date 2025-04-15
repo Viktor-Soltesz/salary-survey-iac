@@ -3,8 +3,12 @@ resource "google_storage_bucket" "gcf_source_bucket" {
   location                    = var.region
   uniform_bucket_level_access = true
   labels                      = local.resource_labels
+  logging {
+    # Reference the logging bucket defined in gcs.tf
+    log_bucket        = google_storage_bucket.access_logs_bucket.name
+    log_object_prefix = "gcf_source_bucket_logs/"
+  }
 }
-
 resource "google_storage_bucket_object" "gcf_source_code" {
   name   = "function-source.zip"
   bucket = google_storage_bucket.gcf_source_bucket.name
