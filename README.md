@@ -6,6 +6,7 @@
 This repository contains the **Terraform-based Infrastructure as Code (IaC)** setup for the **Salary Survey Data Pipeline** on **Google Cloud Platform (GCP)**.
 
 ## Overview
+
 This project automates the provisioning of cloud resources needed for a **data analytics pipeline**, using:
 
 - **Terraform** for infrastructure management
@@ -23,6 +24,7 @@ This project automates the provisioning of cloud resources needed for a **data a
 4. **Run GitHub Actions workflow** to deploy infrastructure with Terraform
 
 ## Project Structure
+
 ├── infra/ # Terraform configurations
 │ ├── provider.tf # GCP provider setup 
 │ ├── iam.tf # IAM role assignments
@@ -36,6 +38,7 @@ This project automates the provisioning of cloud resources needed for a **data a
 ## Setup & Deployment
 
 ### **1: Prerequisites**
+
 - **Google Cloud SDK** installed (`gcloud`)
 - **Terraform** installed (`terraform -v`)
 - **GitHub Actions** configured with GCP credentials

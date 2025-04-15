@@ -8,7 +8,8 @@ from etl_pipeline.transform.standardize_format import standardize_format
 
 def test_standardize_format_transforms_headers_and_strings():
     """
-    Test the standardize_format function to ensure it correctly transforms headers and string values.
+    Test the standardize_format function to ensure 
+    it correctly transforms headers and string values.
     """
     csv_data = """
 Work Year,Experience Level , Employment_Type,Employee residence,Salary,Salary in USD,Job Title

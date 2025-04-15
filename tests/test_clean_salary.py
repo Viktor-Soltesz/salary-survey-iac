@@ -60,3 +60,4 @@ def test_clean_salary_raises_keyerror_if_column_missing():
 
     # Optionally, assert the specific error message
     assert "Column 'salary' not found in the DataFrame." in str(excinfo.value)
+    
