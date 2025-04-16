@@ -24,7 +24,7 @@ This project automates the provisioning of cloud resources needed for a **data a
 4. **Run GitHub Actions workflow** to deploy infrastructure with Terraform
 
 ## Project Structure
-
+```text
 ├── infra/ # Terraform configurations
 │ ├── provider.tf # GCP provider setup 
 │ ├── iam.tf # IAM role assignments
@@ -34,6 +34,7 @@ This project automates the provisioning of cloud resources needed for a **data a
 ├── .github/workflows/ # CI/CD workflows for Terraform deployment 
 ├── prereq.sh # Shell script to set up initial IAM & APIs 
 └── README.md # Project documentation
+```
 
 ## Setup & Deployment
 
