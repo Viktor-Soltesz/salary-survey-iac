@@ -24,6 +24,7 @@ This project automates the provisioning of cloud resources needed for a **data a
 4. **Run GitHub Actions workflow** to deploy infrastructure with Terraform
 
 ## Project Structure
+
 ```text
 ├── infra/ # Terraform configurations
 │ ├── provider.tf # GCP provider setup 

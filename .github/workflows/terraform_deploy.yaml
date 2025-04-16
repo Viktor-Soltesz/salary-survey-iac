@@ -12,7 +12,7 @@ on:
 
 jobs:
   test:
-    if: false  # MANUAL disabling of the job
+    if: true  # MANUAL disabling of the job
     name: Run Tests
     runs-on: ubuntu-latest
 
