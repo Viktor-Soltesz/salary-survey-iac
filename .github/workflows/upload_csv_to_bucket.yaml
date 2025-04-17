@@ -8,8 +8,36 @@ on:
   workflow_dispatch:
 
 jobs:
+  validate-csv:
+    if: true  # MANUAL enabling/disabling of the job
+    runs-on: ubuntu-latest
+    environment: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Validate CSV format
+        run: |
+          shopt -s nullglob
+          files=(data/*.csv)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No CSV files found in data/ folder!" && exit 1
+          fi
+
+          echo "Validating CSV files..."
+          for file in "${files[@]}"; do
+            echo "Checking $file"
+            header=$(head -n 1 "$file")
+            echo "$header" | grep -q "expected_column" || {
+              echo "Invalid CSV header in $file. Missing expected column." && exit 1
+            }
+          done
+          echo "All CSV files passed validation."
+
   upload-csv:
-    if: true  # MANUAL disabling of the job
+    needs: validate-csv
+    if: false  # MANUAL enabling/disabling of the job
     runs-on: ubuntu-latest
     environment: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
 
