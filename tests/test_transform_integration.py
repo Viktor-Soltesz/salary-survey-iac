@@ -16,7 +16,7 @@ def test_transformation_pipeline_from_dirty_to_clean():
     Test the entire transformation pipeline from dirty to clean data.
     """
     # Define paths
-    base_dir = os.path.dirname(__file__)  
+    base_dir = os.path.dirname(__file__)
     assets_tests_dir = os.path.join(base_dir, 'assets_tests')
     dirty_csv_path = os.path.join(assets_tests_dir, 'test_data_dirty.csv')
     clean_csv_path = os.path.join(assets_tests_dir, 'test_data_clean.csv')

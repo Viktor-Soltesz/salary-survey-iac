@@ -9,7 +9,7 @@ on:
 
 jobs:
   upload-csv:
-    if: true  # MANUAL disabling of the job
+    if: false  # MANUAL disabling of the job
     runs-on: ubuntu-latest
     environment: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
 
@@ -34,7 +34,7 @@ jobs:
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
 
       - name: Install gcloud CLI (includes gsutil)
-        uses: google-github-actions/setup-gcloud@v1
+        uses: google-github-actions/setup-gcloud@6189d56e4096ee891640bb02ac264be376592d6a
         with:
           project_id: ${{ env.GCP_PROJECT_ID }}
 
