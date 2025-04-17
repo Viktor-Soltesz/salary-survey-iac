@@ -12,7 +12,7 @@ on:
 
 jobs:
   test:
-    if: false  # MANUAL disabling of the job
+    if: true  # MANUAL enabling/disabling of the job
     name: Run Tests
     runs-on: ubuntu-latest
 
@@ -65,7 +65,7 @@ jobs:
           coverage-reports: coverage.xml
 
   deploy:
-    if: false  # MANUAL disabling of the job
+    if: true  # MANUAL enabling/disabling of the job
     name: Deploy Infrastructure
     runs-on: ubuntu-latest
     needs: test  # Waits for test job to pass
