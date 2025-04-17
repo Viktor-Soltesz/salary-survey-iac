@@ -5,23 +5,33 @@ on:
     paths:
       - 'data/**'
       - '.github/workflows/upload_csv_to_bucket.yaml'
+  workflow_dispatch:
 
 jobs:
   upload-csv:
-    if: false  # MANUAL disabling of the job
+    if: true  # MANUAL disabling of the job
     runs-on: ubuntu-latest
+    environment: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+
+    env:
+      GCP_PROJECT_ID: ${{ vars.PROJECT_ID }}
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Google Cloud SDK
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@6fc4af4b145ae7821d527454aa9bd537d1f2dc5f
+        with:
+          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+      - name: Install gcloud CLI (includes gsutil)
         uses: google-github-actions/setup-gcloud@v1
         with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
-          service_account_key: ${{ secrets.GCP_SA_KEY }}
-          export_default_credentials: true
+          project_id: ${{ env.GCP_PROJECT_ID }}
 
-      - name: Upload CSV to GCS
+      - name: Upload CSV to GCS upload bucket
         run: |
-          gsutil cp data/*.csv gs://your-etl-trigger-bucket-name/
+          BUCKET_NAME="${GCP_PROJECT_ID}-upload"
+          echo "Uploading CSV to bucket: gs://${BUCKET_NAME}/"
+          gsutil cp data/*.csv gs://${BUCKET_NAME}/
