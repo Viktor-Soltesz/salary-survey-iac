@@ -37,7 +37,7 @@ jobs:
 
   upload-csv:
     needs: validate-csv
-    if: false  # MANUAL enabling/disabling of the job
+    if: true  # MANUAL enabling/disabling of the job
     runs-on: ubuntu-latest
     environment: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
 
