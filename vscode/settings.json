@@ -9,6 +9,8 @@
       "test_*.py"
     ],
     "terminal.integrated.env.windows": {"PYTHONPATH": "${workspaceFolder}\\etl_pipeline"},
-    "python.linting.pylintArgs": ["--init-hook=import sys; import os; sys.path.append(os.path.abspath('etl_pipeline'))"]
+    "python.linting.pylintArgs": ["--init-hook=import sys; import os; sys.path.append(os.path.abspath('etl_pipeline'))"],
+    "dbt.projectRoot": "${workspaceFolder}/dbt",
+    "dbtPowerUser.projectRoot": "${workspaceFolder}/dbt",
+    "dbt.installDepsOnProjectInitialization": false
 }
-  

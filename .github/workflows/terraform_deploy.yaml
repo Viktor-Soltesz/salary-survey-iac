@@ -35,7 +35,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install -r etl_pipeline/requirements.txt
+          pip install -r etl_pipeline/requirements.txt       
           pip install -r etl_pipeline/requirements-dev.txt
 
       - name: Run pip-audit
