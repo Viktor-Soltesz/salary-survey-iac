@@ -1,45 +1,17 @@
-name: Upload CSV to GCS
+name: DBT Run
 
 on:
   push:
     paths:
-      - 'data/**'
-      - '.github/workflows/upload_csv_to_bucket.yaml'
+      - 'dbt/**'
+      - '.github/workflows/dbt_run.yaml'
   workflow_dispatch:
 
 jobs:
-  validate-csv:
-    if: true  # MANUAL enabling/disabling of the job
+  dbt-run:
+    if: true  # Enable/disable manually
     runs-on: ubuntu-latest
-    environment: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Validate CSV format
-        run: |
-          shopt -s nullglob
-          files=(data/*.csv)
-          if [ ${#files[@]} -eq 0 ]; then
-            echo "No CSV files found in data/ folder!" && exit 1
-          fi
-
-          echo "Validating CSV files..."
-          for file in "${files[@]}"; do
-            echo "Checking $file"
-            header=$(head -n 1 "$file")
-            echo "$header" | grep -q "salary" || {
-              echo "Invalid CSV header in $file. Missing expected column." && exit 1
-            }
-          done
-          echo "All CSV files passed validation."
-
-  upload-csv:
-    needs: validate-csv
-    if: true  # MANUAL enabling/disabling of the job
-    runs-on: ubuntu-latest
-    environment: ${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}
+    environment: prod  # Optional: GitHub environment name for scoping secrets
 
     env:
       GCP_PROJECT_ID: ${{ vars.PROJECT_ID }}
@@ -52,23 +24,33 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.config/gcloud
-          key: ${{ runner.os }}-gcloud-${{ hashFiles('.github/workflows/upload_csv_to_bucket.yaml') }}
+          key: ${{ runner.os }}-gcloud-${{ hashFiles('.github/workflows/dbt_run.yaml') }}
           restore-keys: |
             ${{ runner.os }}-gcloud-
 
       - name: Authenticate with Google Cloud
-        uses: google-github-actions/auth@6fc4af4b145ae7821d527454aa9bd537d1f2dc5f
+        uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
 
-      - name: Install gcloud CLI (includes gsutil)
-        uses: google-github-actions/setup-gcloud@6189d56e4096ee891640bb02ac264be376592d6a
+      - name: Install gcloud CLI (includes BigQuery)
+        uses: google-github-actions/setup-gcloud@v1
         with:
           project_id: ${{ env.GCP_PROJECT_ID }}
 
-      - name: Upload CSV to GCS upload bucket
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install DBT and dependencies
         run: |
-          BUCKET_NAME="${GCP_PROJECT_ID}-upload"
-          TARGET_PATH="surveys/developer_salaries/"
-          echo "Uploading CSV to: gs://${BUCKET_NAME}/${TARGET_PATH}"
-          gsutil cp data/*.csv gs://${BUCKET_NAME}/${TARGET_PATH}
+          pip install dbt-bigquery
+
+      - name: Run DBT commands (prod-dbt-env)
+        run: |
+          cd dbt
+          dbt deps --profiles-dir ./profiles
+          dbt debug --target prod-dbt-env --profiles-dir ./profiles
+          dbt build --target prod-dbt-env --profiles-dir ./profiles
+          dbt test  --target prod-dbt-env --profiles-dir ./profiles

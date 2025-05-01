@@ -18,6 +18,7 @@ venv/
 
 # dbt example project structure
 dbt_example/
+logs/
 
 # Ignore DBT generated files
 dbt/target/
