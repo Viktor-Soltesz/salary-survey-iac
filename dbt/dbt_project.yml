@@ -3,14 +3,18 @@ name: 'salary_survey'
 version: '1.0.0'
 config-version: 2
 
+vars:
+  dbt_date:time_zone: 'Europe/Berlin'
+
 profile: 'salary_survey' # This setting configures which "profile" dbt uses for this project.
 
 model-paths: ["models"]
 # analysis-paths: ["analyses"]
-# test-paths: ["tests"]
-# seed-paths: ["seeds"]
-# macro-paths: ["macros"]
-# snapshot-paths: ["snapshots"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+docs-paths: ["docs"]
 
 # target-path: "dbt/target"  # directory which will store compiled SQL files
 clean-targets:         # directories to be removed by `dbt clean`
@@ -20,17 +24,17 @@ clean-targets:         # directories to be removed by `dbt clean`
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 models:
-  dbt:
-    +materialized: table # Sets the default materializations
-    +persist_docs: # Writes all of our column descriptions into BigQuery!
-      relation: true
-      columns: true
-    +hours_to_expiration: 168 # for incremental models this does not reset each run
-
-    marts:
-      # In reality this would only be useful if we had sub-folders within marts/staging/intermediate
-      # but this is an illustration how you would apply a group to a folder
-      +group: sales
+  +persist_docs: # to upload description to the data warehouse
+    relation: true
+    columns: true
+  stg:
+    +materialized: table
+  int:
+    +materialized: table
+  mart:
+    +materialized: table
+  metrics:
+    +materialized: table # view
 
 tests:
   dbt:

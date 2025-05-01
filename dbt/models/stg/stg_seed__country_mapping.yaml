@@ -1,0 +1,19 @@
+version: 2
+
+models:
+  - name: stg_seed__country_mapping
+    description: >
+      Staging model for the country mapping seed.
+      Maps 2-letter ISO country codes to their corresponding full country names.
+    columns:
+      - name: country_code
+        description: "{{ doc('country_code') }}"
+        tests:
+          - not_null
+          - unique
+
+      - name: country_name
+        description: "{{ doc('country_name') }}"
+        tests:
+          - not_null
+          - unique

@@ -1,0 +1,93 @@
+version: 2
+
+models:
+  - name: mart_survey
+    description: >
+      Final curated dataset of developer salary survey responses. This mart excludes statistical outliers
+      and includes enriched salary information normalized for inflation and GDP per capita. Designed for
+      dashboarding, reporting, and downstream analysis.
+    columns:
+      - name: survey_entry_id
+        description: "{{ doc('survey_entry_id') }}"
+        tests:
+          - not_null
+
+      - name: entry_number
+        description: "{{ doc('entry_number') }}"
+        tests:
+          - not_null
+          - unique
+
+      - name: year
+        description: "{{ doc('year') }}"
+        tests:
+          - not_null
+
+      - name: country
+        description: "{{ doc('country') }}"
+        tests:
+          - not_null
+
+      - name: country_name
+        description: "{{ doc('country_name') }}"
+        tests:
+          - not_null
+
+      - name: job_category
+        description: "{{ doc('job_category') }}"
+        tests:
+          - not_null
+
+      - name: seniority_level
+        description: "{{ doc('seniority_level') }}"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['en', 'mi', 'se', 'ex', 'other']
+
+      - name: employment_status
+        description: "{{ doc('employment_status') }}"
+        tests:
+          - not_null
+
+      - name: company_size
+        description: "{{ doc('company_size') }}"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['s', 'm', 'l', 'other']
+
+      - name: salary
+        description: "{{ doc('salary') }}"
+        tests:
+          - not_null
+
+      - name: salary_norm2024
+        description: "{{ doc('salary_norm2024') }}"
+        tests:
+          - not_null
+
+      - name: salary_normgdp
+        description: "{{ doc('salary_normgdp') }}"
+        tests:
+          - not_null
+
+      - name: salary_norm
+        description: "{{ doc('salary_norm') }}"
+        tests:
+          - not_null
+
+      - name: gdp_ppp
+        description: "{{ doc('gdp_ppp') }}"
+        tests:
+          - not_null
+
+      - name: factor_to_2024
+        description: "{{ doc('factor_to_2024') }}"
+        tests:
+          - not_null
+
+      - name: z_score_modif
+        description: "{{ doc('z_score_modif') }}"
+        tests:
+          - not_null

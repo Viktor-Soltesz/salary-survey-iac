@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: int_seed__country
+    description: >
+      Intermediate model combining country economic indicators and country names.
+      Provides GDP-PPP per capita in USD and full country names, keyed by 2-letter ISO country codes.
+    columns:
+      - name: country_code
+        description: "{{ doc('country_code') }}"
+        tests:
+          - not_null
+          - unique
+
+      - name: country_name
+        description: "{{ doc('country_name') }}"
+        tests:
+          - not_null
+
+      - name: gdp_ppp
+        description: "{{ doc('gdp_ppp') }}"
+        tests:
+          - not_null

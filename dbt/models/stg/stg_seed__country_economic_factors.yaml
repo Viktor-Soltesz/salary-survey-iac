@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: stg_seed__country_economic_factors
+    description: >
+      Staging model for country-level economic indicators used in salary normalization.
+      Includes GDP-PPP, median and mean income, and average Glassdoor-reported software engineer salary in USD.
+    columns:
+      - name: country_code
+        description: "{{ doc('country_code') }}"
+        tests:
+          - not_null
+          - unique
+
+      - name: median_income_2020_usd
+        description: "Median income in 2020, measured in USD, based on official statistics or reliable estimates."
+        tests:
+          - not_null
+
+      - name: mean_income_2020_usd
+        description: "Mean (average) income in 2020, measured in USD."
+        tests:
+          - not_null
+
+      - name: gdp_ppp
+        description: "{{ doc('gdp_ppp') }}"
+        tests:
+          - not_null
+
+      - name: glassdoor_software_engineer_usd
+        description: "Estimated average salary of a software engineer based on Glassdoor data, in USD."

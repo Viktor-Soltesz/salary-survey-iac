@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: OBS_survey_data_quality
+    description: >
+      Quality assurance model that tracks data loss, anomalies, and transformation issues across
+      the survey data pipeline. It aggregates metrics related to missing, invalid, duplicate,
+      or miscategorized entries at each processing stage (raw, cleaned, normalized, and final).
+    columns:
+      - name: metric_name
+        description: >
+          Name of the data quality metric being tracked (e.g., null_salary, invalid_salary,
+          miscategorized_seniority, etc.).
+        tests:
+          - not_null
+          - unique
+
+      - name: issue_count
+        description: >
+          Number of records affected by the issue described in `metric_name`.
+        tests:
+          - not_null
