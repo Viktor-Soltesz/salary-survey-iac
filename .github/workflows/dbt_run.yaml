@@ -1,38 +1,59 @@
-name: Run DBT Models
+name: DBT Run
 
 on:
   push:
     paths:
       - 'dbt/**'
       - '.github/workflows/dbt_run.yaml'
+  workflow_dispatch:
 
 jobs:
-  run-dbt:
-    if: false  # MANUAL disabling of the job
+  dbt-run:
+    if: true  # Enable/disable manually
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: dbt
+    environment: prod  # Optional: GitHub environment name for scoping secrets
+
+    env:
+      GCP_PROJECT_ID: ${{ vars.PROJECT_ID }}
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Cache gcloud CLI config/plugins
+        uses: actions/cache@v3
+        with:
+          path: ~/.config/gcloud
+          key: ${{ runner.os }}-gcloud-${{ hashFiles('.github/workflows/dbt_run.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-gcloud-
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+      - name: Write GCP credentials to file for DBT
+        run: echo '${{ secrets.GOOGLE_CREDENTIALS }}' > /tmp/gcp_keyfile.json
+
+      - name: Install gcloud CLI (includes BigQuery)
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ env.GCP_PROJECT_ID }}
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
-      - name: Install dependencies
+      - name: Install DBT and dependencies
         run: |
-          pip install dbt-core dbt-bigquery
-      
-      - name: Write GCP credentials to file
-        run: echo '${{ secrets.GOOGLE_CREDENTIALS }}' > /tmp/gcp_keyfile.json
+          pip install dbt-bigquery
 
-      - name: Run DBT
+      - name: Run DBT commands (prod-dbt-env)
         run: |
-          dbt deps
-          dbt seed --profiles-dir .
-          dbt run --profiles-dir .
-          dbt test --profiles-dir .
+          cd dbt
+          dbt deps --profiles-dir ./profiles
+          dbt debug --target prod-dbt-env --profiles-dir ./profiles
+          dbt build --target prod-dbt-env --profiles-dir ./profiles
+          dbt test  --target prod-dbt-env --profiles-dir ./profiles
