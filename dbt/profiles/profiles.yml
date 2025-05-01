@@ -19,4 +19,4 @@ salary_survey: # this needs to match the profile: in your dbt_project.yml file
       dataset: surveys
       location: europe-west9
       threads: 4
-      keyfile_json: /tmp/gcp_keyfile.json
+      keyfile: /tmp/gcp_keyfile.json
