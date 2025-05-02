@@ -11,6 +11,11 @@ models:
         tests:
           - not_null
           - unique
+      
+      - name: updated_at
+        description: "Timestamp of the last update to the economic data."
+        tests:
+          - not_null
 
       - name: median_income_2020_usd
         description: "Median income in 2020, measured in USD, based on official statistics or reliable estimates."

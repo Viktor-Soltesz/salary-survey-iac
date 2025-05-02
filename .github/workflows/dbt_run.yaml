@@ -6,12 +6,14 @@ on:
       - 'dbt/**'
       - '.github/workflows/dbt_run.yaml'
   workflow_dispatch:
+  #schedule:
+  #  - cron: '0 5 * * 1'  # Every Monday at 5:00 AM UTC
 
 jobs:
   dbt-run:
     if: true  # Enable/disable manually
     runs-on: ubuntu-latest
-    environment: prod  # Optional: GitHub environment name for scoping secrets
+    environment: prod
 
     env:
       GCP_PROJECT_ID: ${{ vars.PROJECT_ID }}
@@ -53,10 +55,31 @@ jobs:
         run: |
           pip install dbt-bigquery
 
-      - name: Run DBT commands (prod-dbt-env)
+      - name: Change to dbt project directory
         run: |
           cd dbt
+
+      - name: Install DBT dependencies (packages)
+        run: |
           dbt deps --profiles-dir ./profiles
+        working-directory: ./dbt
+
+      - name: Debug DBT connection
+        run: |
           dbt debug --target prod-dbt-env --profiles-dir ./profiles
+        working-directory: ./dbt
+
+      - name: Check source freshness
+        run: |
+          dbt source freshness --target prod-dbt-env --profiles-dir ./profiles
+        working-directory: ./dbt
+
+      - name: Run DBT seeds
+        run: |
+          dbt seed --target prod-dbt-env --profiles-dir ./profiles
+        working-directory: ./dbt
+
+      - name: Build DBT models (run + test + snapshot by default)
+        run: |
           dbt build --target prod-dbt-env --profiles-dir ./profiles
-          dbt test  --target prod-dbt-env --profiles-dir ./profiles
+        working-directory: ./dbt

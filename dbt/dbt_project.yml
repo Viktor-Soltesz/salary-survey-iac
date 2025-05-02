@@ -28,14 +28,21 @@ models:
     relation: true
     columns: true
   stg:
-    +materialized: table
+    +materialized: view
   int:
-    +materialized: table
+    +materialized: view
   mart:
     +materialized: table
   metrics:
     +materialized: table # view
 
+seeds:
+  +schema: seeds
+
 tests:
   dbt:
     +severity: warn
+
+snapshots:
+  salary_survey:
+    +target_schema: salary_survey_snapshots

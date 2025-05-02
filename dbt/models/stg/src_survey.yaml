@@ -1,5 +1,5 @@
 #src_survey.yml
-version: 2 # Needed for every dbt yml file - https://docs.getdbt.com/faqs/project/why-version-2
+version: 2
 
 sources:
   - name: survey_data
@@ -9,3 +9,16 @@ sources:
     schema: surveys
     tables:
       - name: developer_salaries
+        description: "Raw survey responses loaded from CSVs"
+
+  - name: seed_data
+    database: software-developer-salaries
+    schema: surveys_seeds
+    tables:
+      - name: country_economic_factors # must match the name of CSV file
+        identifier: country_economic_factors
+        description: "Economic stats per country with updated_at timestamp for freshness testing"
+        loaded_at_field: updated_at
+        freshness:
+          warn_after: { count: 365, period: day }
+          error_after: { count: 1000, period: day }

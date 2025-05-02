@@ -1,3 +1,4 @@
+# stg_survey_data.yaml
 version: 2
 
 models:
@@ -7,6 +8,7 @@ models:
       Performs basic text cleaning, type casting, generates unique IDs, 
       and adds a processing timestamp.
       Raw values are kept in '_raw' columns for consistency before semantic cleaning in intermediate layers.
+    access: public  # staging models are typically not exposed
     columns:
       - name: survey_entry_id
         description: "{{ doc('survey_entry_id') }}"

@@ -2,7 +2,7 @@
 # This configures dbt when run through GITHUB ACTIONS!
 # Otherwise, without run-specifications, DBT uses the profile stored in C/user/.dbt/profiles.yml
 salary_survey: # this needs to match the profile: in your dbt_project.yml file
-  target: dev # The default for any dbt commands
+  target: dev-dbt-env # The default for any dbt commands
   outputs:
     dev-dbt-env:
       type: bigquery

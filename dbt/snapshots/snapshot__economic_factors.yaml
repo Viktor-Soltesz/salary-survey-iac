@@ -1,0 +1,7 @@
+version: 2
+
+snapshots:
+  - name: snapshot__economic_factors
+    description: >
+      Tracks historical changes to country-level economic indicators such as GDP-PPP
+      over time. Useful for time-consistent normalization of salary data.

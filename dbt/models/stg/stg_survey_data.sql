@@ -5,7 +5,8 @@
 -- on text fields.
 
 {{ config(
-    materialized='table'
+    tags=['staging', 'survey'],
+    contract={"enforced": false}
 ) }}
 -- Use 'view' for staging models by default
 
