@@ -79,7 +79,17 @@ jobs:
           dbt seed --target prod-dbt-env --profiles-dir ./profiles
         working-directory: ./dbt
 
-      - name: Build DBT models (run + test + snapshot by default)
+      - name: Run DBT models
         run: |
-          dbt build --target prod-dbt-env --profiles-dir ./profiles
+          dbt run --target prod-dbt-env --profiles-dir ./profiles
+        working-directory: ./dbt
+
+      - name: Run DBT snapshots
+        run: |
+          dbt snapshot --target prod-dbt-env --profiles-dir ./profiles
+        working-directory: ./dbt
+
+      - name: Run DBT tests
+        run: |
+          dbt test  --target prod-dbt-env --profiles-dir ./profiles
         working-directory: ./dbt
