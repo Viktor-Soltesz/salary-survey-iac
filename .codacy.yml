@@ -1,4 +1,4 @@
 ---
 exclude_paths:
-  - "dbt/models/**/*.sql"
-# Codacy does not recognize jinja syntax in dbt models (thinks they're an error), so we need to ignore those files in the analysis.
+  - "dbt/**/*.sql"
+# Codacy does not recognize jinja syntax in dbt models (thinks they're an error).

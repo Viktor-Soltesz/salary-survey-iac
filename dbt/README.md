@@ -17,20 +17,20 @@ This project analyzes survey responses from software developers around the world
 
 ## DBT Layers
 
-**Staging**  
+### Staging
 Standardizes raw and seed inputs
 
-**Intermediate**  
+### Intermediate
 
 - Cleans, normalizes, and flags outliers in survey data  
 - Aggregates country-level statistics
 
-**Mart**
+### Mart
 
 - `mart_survey__base`: Final cleaned dataset  
 - `mart_survey__aggregates`: Summary statistics
 
-**Metrics & Snapshots**
+### Metrics & Snapshots
 
 - Data quality metrics  
 - Snapshot tracking of economic factors
