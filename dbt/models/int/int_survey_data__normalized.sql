@@ -1,3 +1,9 @@
+-- int_survey_data__normalized.sql
+{{ config(
+    tags=['layer:int', 'domain:survey'],
+    contract={"enforced": false}
+) }}
+
 SELECT
     sd.*,
     ce.country_name,

@@ -1,3 +1,9 @@
+-- int_seed__country.sql
+{{ config(
+    tags=['layer:int', 'domain:survey'],
+    contract={"enforced": false}
+) }}
+
 SELECT
     cs.country_code,
     cm.country_name,

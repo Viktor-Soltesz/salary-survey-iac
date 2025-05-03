@@ -1,3 +1,9 @@
+-- int_survey_data__outliers_flagged.sql
+{{ config(
+    tags=['layer:int', 'domain:survey'],
+    contract={"enforced": false}
+) }}
+
 WITH base AS (
     SELECT *
     FROM {{ ref('int_survey_data__normalized') }}

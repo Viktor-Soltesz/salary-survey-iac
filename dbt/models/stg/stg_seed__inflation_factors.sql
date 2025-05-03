@@ -1,7 +1,12 @@
 -- stg_seed_inflation_factors.sql
+{{ config(
+    tags=['layer:stg', 'domain:survey'],
+    contract={"enforced": false}
+) }}
+
 WITH source AS (
     SELECT *
-    FROM {{ ref('inflation_factors') }}
+    FROM {{ ref('seed__inflation_factors') }}
 )
 
 SELECT

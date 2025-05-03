@@ -1,7 +1,12 @@
 -- stg_seed__country_economic_factors.sql
+{{ config(
+    tags=['layer:stg', 'domain:survey'],
+    contract={"enforced": false}
+) }}
+
 WITH source AS (
     SELECT *
-    FROM {{ source('seed_data', 'country_economic_factors') }} -- For source freshness check
+    FROM {{ source('seed_data', 'seed__country_economic_factors') }} -- For source freshness check
 )
 
 SELECT

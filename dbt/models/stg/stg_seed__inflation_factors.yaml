@@ -1,3 +1,4 @@
+# stg_seed__inflation_factors.yaml
 version: 2
 
 models:
@@ -5,6 +6,15 @@ models:
     description: >
       Staging model for inflation factors used to normalize salaries to 2024 values.
       This seed contains one global inflation factor per year from 2018 to 2024.
+    meta:
+      owner: solteesz.viktor@gmail.com
+      maturity: beta
+      exposed: false
+      sla: yearly         # Service Level Agreement
+      pii: false          # Personally Identifiable Information
+      source_system: software-developer-salaries/surveys
+      related_dashboards: tableau_salary_dashboard
+
     columns:
       - name: year
         description: "{{ doc('year') }}"

@@ -1,4 +1,4 @@
- # metrics__semantic_kpis.yml
+# metrics__semantic_kpis.yml
 # This file defines semantic metrics for analysis and dashboarding.
 # These are not used in dbt Core builds, but represent a centralized definition
 # of business metrics such as average and median normalized salary.

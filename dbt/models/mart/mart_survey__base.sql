@@ -1,7 +1,7 @@
 -- mart_survey.sql
-
 {{ config(
-    tags=['mart', 'survey'],
+    tags=['layer:mart', 'domain:survey'],
+    materialized = 'table',
     contract={"enforced": true}
 ) }}
 

@@ -1,5 +1,8 @@
+-- metric_survey__data_quality.sql
 {{ config(
-    materialized = 'table'
+    tags=['layer:metric', 'domain:survey'],
+    materialized = 'table',
+    contract={"enforced": false}
 ) }}
 
 WITH base AS (
@@ -16,7 +19,7 @@ after_normalization AS (
 ),
 final_mart AS (
     SELECT *
-    FROM {{ ref('mart_survey') }}
+    FROM {{ ref('mart_survey__base') }}
 )
 
 SELECT

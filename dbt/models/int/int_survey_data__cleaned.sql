@@ -1,3 +1,9 @@
+-- int_suvey_data__cleaned.sql
+{{ config(
+    tags=['layer:int', 'domain:survey'],
+    contract={"enforced": false}
+) }}
+
 WITH deduplicated AS (
     SELECT *,
         ROW_NUMBER() OVER (

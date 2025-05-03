@@ -1,7 +1,12 @@
 -- stg_seed__country_mapping.sql
+{{ config(
+    tags=['layer:stg', 'domain:survey'],
+    contract={"enforced": false}
+) }}
+
 WITH source AS (
     SELECT *
-    FROM {{ ref('country_mapping') }}
+    FROM {{ ref('seed__country_mapping') }}
 )
 
 SELECT

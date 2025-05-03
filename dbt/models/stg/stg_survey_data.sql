@@ -1,14 +1,13 @@
 -- stg_survey_data.sql
+{{ config(
+    tags=['layer:stg', 'domain:survey'],
+    contract={"enforced": false}
+) }}
+
 -- This model selects raw survey data, casts data types,
 -- generates a unique ID, adds a processing timestamp,
 -- and performs initial basic cleaning/standardization
 -- on text fields.
-
-{{ config(
-    tags=['staging', 'survey'],
-    contract={"enforced": false}
-) }}
--- Use 'view' for staging models by default
 
 SELECT
     {{ dbt_utils.generate_surrogate_key(['year', 'country', 'seniority_level', 'job_category', 'salary']) }} AS survey_entry_id, -- Generate a unique ID

@@ -7,9 +7,9 @@ exposures:
     description: "Tracks key salary metrics by country and seniority"
     owner:
       name: Viktor
-      email: viktor.solteesz@gmail.com
+      email: solteesz.viktor@gmail.com
     depends_on:
-      - ref('mart_survey')
-      - ref('mart_survey_aggregates')
+      - ref('mart_survey__base')
+      - ref('mart_survey__aggregates')
     maturity: high
     url: https://tableau.company.com/
