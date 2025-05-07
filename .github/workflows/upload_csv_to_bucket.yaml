@@ -72,3 +72,23 @@ jobs:
           TARGET_PATH="surveys/developer_salaries/"
           echo "Uploading CSV to: gs://${BUCKET_NAME}/${TARGET_PATH}"
           gsutil cp data/*.csv gs://${BUCKET_NAME}/${TARGET_PATH}
+
+  notify-slack-success:
+    needs: upload-csv
+    if: success()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Notify Slack of successful upload
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_USERNAME: 'GitHub Actions Bot'
+          SLACK_COLOR: '#36a64f'  # green
+          SLACK_MESSAGE: |
+            ✅ *CSV Upload Workflow Succeeded*
+            • Repo: `${{ github.repository }}`
+            • Branch: `${{ github.ref_name }}`
+            • Actor: `${{ github.actor }}`
+            • Workflow: `${{ github.workflow }}`
+            • Run: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>

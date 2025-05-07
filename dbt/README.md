@@ -1,4 +1,4 @@
-# Global Developer Salary Analysis (DBT Project)
+# Data Modeling - Salary Survey
 
 This project analyzes survey responses from software developers around the world, focusing on salary normalization, data quality, and model transparency. It is built in BigQuery using DBT and follows layered transformations for clarity and modularity.
 
@@ -18,6 +18,7 @@ This project analyzes survey responses from software developers around the world
 ## DBT Layers
 
 ### Staging
+
 Standardizes raw and seed inputs
 
 ### Intermediate
@@ -58,14 +59,8 @@ Standardizes raw and seed inputs
 
 ## Future Work
 
-- Modeling tradeoff documentation
 - Integration of unit tests: [EqualExperts/dbt-unit-testing](https://github.com/EqualExperts/dbt-unit-testing)
 
 ## How to Run
 
-```bash
-dbt deps
-dbt seed
-dbt snapshot
-dbt build
-dbt docs generate && dbt docs serve
+- By simply pushing to your github repo, Github Actions kick into action and do the work.
