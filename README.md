@@ -84,8 +84,8 @@ Survey data (.csv) → GCP Infrastructure-as-Code → BigQuery + DBT → Tableau
 
 ## 3. **Run GitHub Actions workflows**
 
- - `terraform_deploy.yaml` - to deploy infrastructure with Terraform,
- - `upload_csv_to_bucket.yaml` - to run the csv through GCP into BigQuery,
- - `dbt_run.yaml` - to run the Transformation layer with DBT.
+- `terraform_deploy.yaml` - to deploy infrastructure with Terraform,
+- `upload_csv_to_bucket.yaml` - to run the csv through GCP into BigQuery,
+- `dbt_run.yaml` - to run the Transformation layer with DBT.
 
   That's it! Everything else is taken care of by GitHub Actions.

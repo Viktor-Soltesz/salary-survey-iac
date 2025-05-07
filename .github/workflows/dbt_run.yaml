@@ -95,7 +95,7 @@ jobs:
         working-directory: ./dbt
 
   notify-slack-success:
-    needs: upload-csv
+    needs: dbt-run
     if: success()
     runs-on: ubuntu-latest
 
@@ -115,7 +115,7 @@ jobs:
             • Run: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>
 
   notify-slack-failure:
-    needs: [validate-csv, upload-csv]
+    needs: dbt-run
     if: failure()
     runs-on: ubuntu-latest
 

@@ -204,7 +204,7 @@ jobs:
         working-directory: infra
 
   notify-slack-success:
-    needs: upload-csv
+    needs: deploy
     if: success()
     runs-on: ubuntu-latest
 
@@ -224,7 +224,7 @@ jobs:
             • Run: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>
 
   notify-slack-failure:
-    needs: [validate-csv, upload-csv]
+    needs: [test, deploy]
     if: failure()
     runs-on: ubuntu-latest
 

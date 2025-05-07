@@ -26,7 +26,7 @@ Outlier detection is critical to avoid skewed aggregate results, and it is appli
 * Assumes that software developers are subject to local economic factors and purchasing power parity.
 * Limitation: presumes equivalency in developer roles and societal value across countries.
 
-### 2.3. Combined Normalization (`salary_norm`):
+### 2.3. Combined Normalization (`salary_norm`)
 
 * First by inflation, then by GDP-PPP.
 * This supports fair, **globally contextual salary comparison**.
