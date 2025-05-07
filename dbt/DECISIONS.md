@@ -14,13 +14,13 @@ Outlier detection is critical to avoid skewed aggregate results, and it is appli
 
 ## 2. Why Normalize Salaries?
 
-### 2.1. Normalization by Inflation (to 2024):
+### 2.1. Normalization by Inflation (to 2024)
 
 * Ensures **temporal comparability** across survey years.
 * A **global inflation factor** is applied for simplicity and consistency.
 * Limitation: ignores region-specific inflation or wage shifts, such as the post-COVID tech boom and bust.
 
-### 2.2. Normalization by GDP-PPP:
+### 2.2. Normalization by GDP-PPP
 
 * Allows for **cross-country comparison** by accounting for local economic strength.
 * Assumes that software developers are subject to local economic factors and purchasing power parity.

@@ -9,10 +9,12 @@ on:
       - 'tests/**'
       - '.github/workflows/terraform_deploy.yaml'
   workflow_dispatch:
+  #schedule:
+  #  - cron: '0 5 * * 1'  # Every Monday at 5:00 AM UTC
 
 jobs:
   test:
-    if: true  # MANUAL enabling/disabling of the job
+    if: false  # MANUAL enabling/disabling of the job
     name: Run Tests
     runs-on: ubuntu-latest
 
@@ -200,3 +202,43 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
         working-directory: infra
+
+  notify-slack-success:
+    needs: upload-csv
+    if: success()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Notify Slack of successful upload
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_USERNAME: 'GitHub Actions Bot'
+          SLACK_COLOR: '#36a64f'  # green
+          SLACK_MESSAGE: |
+            ✅ *CSV Upload Workflow Succeeded*
+            • Repo: `${{ github.repository }}`
+            • Branch: `${{ github.ref_name }}`
+            • Actor: `${{ github.actor }}`
+            • Workflow: `${{ github.workflow }}`
+            • Run: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>
+
+  notify-slack-failure:
+    needs: [validate-csv, upload-csv]
+    if: failure()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Notify Slack of failed upload
+        uses: rtCamp/action-slack-notify@e31e87e03dd19038e411e38ae27cbad084a90661
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_USERNAME: 'GitHub Actions Bot'
+          SLACK_COLOR: '#FF0000'  # red
+          SLACK_MESSAGE: |
+            ❌ *CSV Upload Workflow Failed*
+            • Repo: `${{ github.repository }}`
+            • Branch: `${{ github.ref_name }}`
+            • Actor: `${{ github.actor }}`
+            • Workflow: `${{ github.workflow }}`
+            • Run: <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View logs>
