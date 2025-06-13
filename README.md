@@ -39,7 +39,7 @@ The goal is to reliably ingest messy CSVs, apply standardized cleaning steps, an
 
 # Detailed Breakdown
 
-### 1. Infrastructure (Terraform)
+## 1. Infrastructure (Terraform)
 
 Defines and deploys:
 - GCS buckets: `raw`, `archive`, `temp`
@@ -53,7 +53,7 @@ Defines and deploys:
 
 ---
 
-### 2. Data Upload & Validation (GitHub Actions)
+## 2. Data Upload & Validation (GitHub Actions)
 
 - Uploads raw CSV files to GCS
 - Validates:
@@ -64,27 +64,32 @@ Defines and deploys:
 
 ---
 
-### 3. ETL Logic (Python Cloud Functions)
+## 3. ETL Logic (Python Cloud Functions)
 
 - **Extract**: Loads file into memory using `pandas`
 - **Transform**:
+
   - Standardizes column names
   - Applies typo corrections and type coercions
   - Drops or flags invalid entries
   - All transformations are modular and composable (each `df -> df`)
+
 - **Load**:
+
   - Outputs final DataFrame to BigQuery
   - Saves cleaned file to archive bucket
 
 Testing:
+
 - **Unit tests**: Each transform step
 - **Integration test**: Entire pipeline with edge-case data
 
 ---
 
-### 4. CI/CD Pipeline (GitHub Actions)
+## 4. CI/CD Pipeline (GitHub Actions)
 
 **Python pipeline:**
+
 - `pip-audit` security checks
 - Code linting and formatting
 - Static type checks (`mypy`)
@@ -92,6 +97,7 @@ Testing:
 - Code coverage badge
 
 **Terraform pipeline:**
+
 - Plan/apply with safety checks
 - Output diff and status reporting
 
