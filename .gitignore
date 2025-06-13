@@ -32,3 +32,6 @@ dbt/run_results.json
 dbt/catalog.json
 dbt/partial_parse.msgpack
 dbt/partial_parse.msgpack.msgpack
+
+# Obsolete folder
+obs

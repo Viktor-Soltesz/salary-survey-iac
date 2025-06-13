@@ -1,13 +1,13 @@
 name: Deploy Infrastructure
 
 on:
-  push:
-    #branches: ["main"]
-    paths:
-      - 'etl_pipeline/**'
-      - 'infra/**'
-      - 'tests/**'
-      - '.github/workflows/terraform_deploy.yaml'
+  #push:
+  #  #branches: ["main"]
+  #  paths:
+  #    - 'etl_pipeline/**'
+  #    - 'infra/**'
+  #    - 'tests/**'
+  #    - '.github/workflows/terraform_deploy.yaml'
   workflow_dispatch:
   #schedule:
   #  - cron: '0 5 * * 1'  # Every Monday at 5:00 AM UTC

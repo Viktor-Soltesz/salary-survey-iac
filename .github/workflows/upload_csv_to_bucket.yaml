@@ -1,10 +1,10 @@
 name: Upload CSV to GCS
 
 on:
-  push:
-    paths:
-      - 'data/**'
-      - '.github/workflows/upload_csv_to_bucket.yaml'
+  #push:
+  #  paths:
+  #    - 'data/**'
+  #    - '.github/workflows/upload_csv_to_bucket.yaml'
   workflow_dispatch:
   #schedule:
   #  - cron: '0 5 * * 1'  # Every Monday at 5:00 AM UTC
